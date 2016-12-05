@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+
+  mount Ckeditor::Engine => '/ckeditor'
+  resource :omniauth
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -13,6 +17,15 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
+  resources :templates
+
+  # Bigcommerce Webhooks related routes
+  resources :hooks do
+    collection do
+      post 'order_created'
+      post 'shipment_created'
+    end
+  end
 
   # Example resource route with options:
   #   resources :products do
