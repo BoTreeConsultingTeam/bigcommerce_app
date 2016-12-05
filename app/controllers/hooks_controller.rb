@@ -9,14 +9,15 @@ class HooksController < ApplicationController
   end
 
   def order_created
-    Rails.logger.debug ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAlling order created"
-    begin
-      Notifier.order_notifier(current_store.username, current_store.email).deliver_now
-    rescue Exception => e
-      Rails.logger.debug "EXCEPTION >>>>>>>>>>>>>>>>>>>>>>>> + #{e}"
-    end
-    Rails.logger.debug 'Your order has been created!'
-    Rails.logger.debug params.inspect
+    # Rails.logger.debug ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAlling order created"
+    # begin
+    #   Notifier.order_notifier(current_store.username, current_store.email).deliver_now
+    # rescue Exception => e
+    #   Rails.logger.debug "EXCEPTION >>>>>>>>>>>>>>>>>>>>>>>> + #{e}"
+    # end
+    # Rails.logger.debug 'Your order has been created!'
+    # Rails.logger.debug params.inspect
+    EmailType.create(name: "abc")
     render nothing: true, status: 200
   end
 
