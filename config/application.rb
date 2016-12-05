@@ -25,5 +25,19 @@ module DemoBigCommerce
     config.assets.precompile += Ckeditor.assets
     config.assets.precompile += %w( ckeditor/* )
     config.autoload_paths += %w(#{config.root}/app/models/ckeditor)
+    config.action_mailer.default_url_options = { host: 'localhost:3000' }  # Specify mailer config for devise
+   config.action_mailer.raise_delivery_errors = true
+   config.action_mailer.perform_deliveries = true
+
+   ActionMailer::Base.smtp_settings = {
+     :address        => 'smtp.gmail.com',
+     :port           => '587',
+     :authentication => :plain,
+     :user_name      => "#{ENV['DEMO_MAIL']}",
+     :password       => "#{ENV['DEMO_PASSWORD']}",
+     :enable_starttls_auto => true,
+     return_response: true
+   }
+
   end
 end

@@ -10,10 +10,12 @@ class HooksController < ApplicationController
   def order_created
     puts 'Your order has been created!'
     puts params.inspect
+    Notifier.order_notifier(current_store.username, current_store.email).deliver
   end
 
   def shipment_created
     puts 'Your shipment has been created!'
     puts params.inspect
+    Notifier.shipment_notifier(current_store.username, current_store.email).deliver
   end
 end
