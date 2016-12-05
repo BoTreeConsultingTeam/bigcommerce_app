@@ -32,15 +32,12 @@ class OmniauthsController < ApplicationController
     return render_error('[load] Invalid payload signature!') unless payload
     email = payload['user']['email']
     @email = email
-    # store_hash = payload[:store_hash]
-    # # Lookup store
-    # @store = Store.first(store_hash: store_hash)
-    # return render_error("[load] Store not found!") unless @store
-    #
-    #
-    # # Login and redirect to home page
-    # logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
-    # session[:store_id] = @store.id
+    store_hash = payload['store_hash']
+    # Lookup store
+    @store = Store.find_by(store_hash: store_hash)
+    return render_error("[load] Store not found!") unless @store
+    logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
+    session[:store_id] = @store.id
   end
 
   private
