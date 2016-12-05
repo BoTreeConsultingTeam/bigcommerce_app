@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Set all the default available email types for triggring with the application.
+EmailType::DEFAULT_AVAILABLE.each{ |type| EmailType.find_or_create_by(:name => type) }
