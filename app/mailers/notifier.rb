@@ -1,5 +1,5 @@
 class Notifier < ApplicationMailer
-  default from: 'demo@example.com'
+  default from: 'big.commerce123@gmail.com'
   def order_notifier(username, email)
     @username = username
     mail(to: email, subject: 'Order Created')
