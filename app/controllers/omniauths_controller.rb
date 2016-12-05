@@ -6,6 +6,7 @@ class OmniauthsController < ApplicationController
     end
 
     email = auth[:info][:email]
+    name = auth[:info][:name]
     store_hash = auth[:extra][:context].split('/')[1]
     token = auth[:credentials][:token].token
     scope = auth[:extra][:scopes]
@@ -19,14 +20,14 @@ class OmniauthsController < ApplicationController
     else
       # Create store record
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
-      store = Store.create(store_hash: store_hash, access_token: token, scope: scope)
+      store = Store.create(store_hash: store_hash, access_token: token, scope: scope, user_email: email, username: name)
       session[:store_id] = store.id
     end
     render 'home/index', status: 200
   end
 
   def load
-    
+
   end
 
   private
