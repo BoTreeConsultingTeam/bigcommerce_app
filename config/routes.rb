@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resource :omniauth
+  get '/auth/:name/callback' => 'omniauths#callback'
+  get '/load' => 'omniauths#load'
+  get '/uninstall' => 'omniauths#uninstall'
+  root 'home#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
