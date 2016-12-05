@@ -9,7 +9,7 @@ class HooksController < ApplicationController
   end
 
   def order_created
-    Rails.logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAlling order created")
+    puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAlling order created"
     # begin
     #   Notifier.order_notifier(current_store.username, current_store.email).deliver_now
     # rescue Exception => e
