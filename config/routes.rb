@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get '/load' => 'omniauths#load'
   get '/uninstall' => 'omniauths#uninstall'
   root 'home#index'
+  get '/order_created' => 'hooks#order_created'
+  get '/shipment_created' => 'hooks#shipment_created'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
