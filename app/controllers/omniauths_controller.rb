@@ -20,25 +20,13 @@ class OmniauthsController < ApplicationController
       # Create store record
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
       store = Store.create(store_hash: store_hash, access_token: token, scope: scope)
+      session[:store_id] = store.id
     end
     render 'home/index', status: 200
   end
 
   def load
-    payload = parse_signed_payload
-    return render_error('[load] Invalid payload signature!') unless payload
-
-    email = payload[:user][:email]
-    store_hash = payload[:store_hash]
-
-    # Lookup store
-    store = Store.first(store_hash: store_hash)
-    return render_error("[load] Store not found!") unless store
-
-    logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
-    session[:store_id] = store.id
-    session[:user_id] = user.id
-    redirect '/'
+    
   end
 
   private
