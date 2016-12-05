@@ -33,6 +33,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
+gem 'simple_form'
+# Easy file attachment management for ActiveRecord
+gem "paperclip", "~> 5.0.0"
+# CKEditor is a WYSIWYG text editor designed to simplify web content creation
+gem 'ckeditor'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
