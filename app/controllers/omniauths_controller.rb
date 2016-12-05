@@ -27,6 +27,20 @@ class OmniauthsController < ApplicationController
   end
 
   def load
+    payload = parse_signed_payload
+    return render_error('[load] Invalid payload signature!') unless payload
+
+    email = payload[:user][:email]
+    store_hash = payload[:store_hash]
+
+    # Lookup store
+    @store = Store.first(store_hash: store_hash)
+    return render_error("[load] Store not found!") unless store
+
+
+    # Login and redirect to home page
+    logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
+    session[:store_id] = @store.id
 
   end
 
@@ -47,6 +61,51 @@ class OmniauthsController < ApplicationController
     if secure_compare(expected_signature, provided_signature)
       return JSON.parse(payload, symbolize_names: true)
     end
+
     nil
+  end
+
+  def sign_payload(secret, payload)
+    OpenSSL::HMAC::hexdigest('sha256', secret, payload)
+  end
+
+  def secure_compare(a, b)
+    return false if a.blank? || b.blank? || a.bytesize != b.bytesize
+    l = a.unpack "C#{a.bytesize}"
+
+    res = 0
+    b.each_byte { |byte| res |= byte ^ l.shift }
+    res == 0
+  end
+
+  def render_error(e)
+    logger.warn "ERROR: #{e}"
+    @error = e
+    raise e
+  end
+
+  def bc_client_id
+    ENV['BC_CLIENT_ID']
+  end
+
+  # Get client secret from env
+  def bc_client_secret
+    ENV['BC_CLIENT_SECRET']
+  end
+
+# Get the API url from env
+  def bc_api_url
+    ENV['BC_API_ENDPOINT'] || 'https://api.bigcommerce.com'
+  end
+
+  # Full url to this app
+  def app_url
+    ENV['APP_URL']
+  end
+
+  # The scopes we are requesting (must match what is requested in
+  # Developer Portal).
+  def scopes
+    ENV.fetch('SCOPES', 'store_v2_products')
   end
 end

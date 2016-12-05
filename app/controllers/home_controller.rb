@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    
+    @store = current_store
   end
 
   private
@@ -11,9 +11,20 @@ class HomeController < ApplicationController
   # end
 
   def current_store
-    user = current_user
-    return nil unless user
-    return nil unless session[:store_id]
-    user.stores.get(session[:store_id])
+    stores.where(id: session[:store_id]).first
+  end
+
+  def bc_api
+    config = {
+      store_hash: self.store_hash,
+      client_id: bc_client_id,
+      access_token: self.access_token
+    }
+    Bigcommerce::Api.new(config)
+  end
+
+  def bc_api_working?
+    time = bc_api.time
+    time && time.key?("time")
   end
 end
