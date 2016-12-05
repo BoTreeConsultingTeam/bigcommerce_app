@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_store
-    @current_store = Store.find(session[:store_id]) rescue nil
+    puts "params >>>>>>>>>>>>>>>>>>>>>>> #{params}"
+    @current_store = Store.find(session[:store_id])
   end
 end
