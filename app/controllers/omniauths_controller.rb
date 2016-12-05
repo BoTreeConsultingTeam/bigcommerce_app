@@ -27,7 +27,9 @@ class OmniauthsController < ApplicationController
   end
 
   def load
+    Rails.logger.debug ">>>>>>>>>>>>>>>> Started"
     payload = parse_signed_payload
+
     puts "Payload >>>> #{payload}"
     return render_error('[load] Invalid payload signature!') unless payload
     email = payload[:user][:email]
@@ -43,14 +45,13 @@ class OmniauthsController < ApplicationController
     # Login and redirect to home page
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
-    puts "success ===================="
   end
 
   private
 
   def parse_signed_payload
-      puts "request started "
-      puts "#{params} <<<<<<<<<<<<<<<<<<<<<<<<< Params"
+    puts "request started "
+    puts "#{params} <<<<<<<<<<<<<<<<<<<<<<<<< Params"
     signed_payload = params[:signed_payload]
 
     message_parts = signed_payload.split('.')
