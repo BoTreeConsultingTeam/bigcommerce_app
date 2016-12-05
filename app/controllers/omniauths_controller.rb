@@ -27,7 +27,7 @@ class OmniauthsController < ApplicationController
   end
 
   def load
-    # payload = parse_signed_payload
+    @payload = parse_signed_payload
     #
     # return render_error('[load] Invalid payload signature!') unless payload
     # email = payload[:user][:email]
