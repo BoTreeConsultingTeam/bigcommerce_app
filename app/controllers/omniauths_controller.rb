@@ -28,9 +28,10 @@ class OmniauthsController < ApplicationController
 
   def load
     @payload = parse_signed_payload
-    #
-    # return render_error('[load] Invalid payload signature!') unless payload
-    # email = payload[:user][:email]
+
+    return render_error('[load] Invalid payload signature!') unless payload
+    email = payload[:user][:email]
+    @email = email
     # store_hash = payload[:store_hash]
     # # Lookup store
     # @store = Store.first(store_hash: store_hash)
