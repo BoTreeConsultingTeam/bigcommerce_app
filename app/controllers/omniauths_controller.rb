@@ -18,11 +18,8 @@ class OmniauthsController < ApplicationController
       store.update(access_token: token, scope: scope)
 
       connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
-      puts "Bigcommerce::System.time(connection: connection) >>>>>>> #{Bigcommerce::System.time(connection: connection)}"
-      webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/order_created",  connection: connection  )
-      puts "webhook1 >>>>>>> #{webhook1}"
-      webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/shipment_created",  connection: connection  )
-      puts "webhook2 >>>>>>> #{webhook2}"
+      webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/order_created",  connection: connection  )
+      webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/shipment_created",  connection: connection  )
       # user = store.admin_user
     else
       # Create store record
@@ -30,11 +27,8 @@ class OmniauthsController < ApplicationController
       store = Store.create(store_hash: store_hash, access_token: token, scope: scope, user_email: email, username: name)
       if store.present?
         connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
-        puts "Bigcommerce::System.time(connection: connection) >>>>>>> #{Bigcommerce::System.time(connection: connection)}"
-        webhook1 = Bigcommerce::Webhook.create!( scope: 'store/order/created',  destination: "#{ENV[APP_URL]}order_created",  connection: connection  )
-        puts "webhook1 >>>>>>> #{webhook1}"
-        webhook2 = Bigcommerce::Webhook.create!( scope: 'store/shipment/created',  destination: "#{ENV[APP_URL]}shipment_created",  connection: connection  )
-        puts "webhook2 >>>>>>> #{webhook2}"
+        webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/order_created",  connection: connection  )
+        webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/shipment_created",  connection: connection  )
       end
       session[:store_id] = store.id
     end

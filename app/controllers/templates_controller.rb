@@ -24,7 +24,7 @@ class TemplatesController < ApplicationController
   # POST /templates
   # POST /templates.json
   def create
-    @template = Template.new(template_params)
+    @template = current_store.templates.build(template_params)
 
     respond_to do |format|
       if @template.save
