@@ -17,6 +17,7 @@ class HooksController < ApplicationController
     # end
     puts 'Your order has been created!'
     puts params.inspect
+    render nothing: true, status: 200
   end
 
   def shipment_created

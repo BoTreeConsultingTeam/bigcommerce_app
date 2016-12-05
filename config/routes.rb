@@ -25,8 +25,8 @@ Rails.application.routes.draw do
   # Bigcommerce Webhooks related routes
   resources :hooks do
     collection do
-      get 'order_created'
-      get 'shipment_created'
+      post 'order_created'
+      post 'shipment_created'
     end
   end
 
