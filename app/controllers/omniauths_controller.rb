@@ -1,4 +1,3 @@
-require 'pry'
 class OmniauthsController < ApplicationController
   def callback
     auth = request.env['omniauth.auth']
@@ -22,7 +21,7 @@ class OmniauthsController < ApplicationController
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
       store = Store.create(store_hash: store_hash, access_token: token, scope: scope)
     end
-    redirect_to root_path
+    render 'home/index', status: 200
   end
 
   def load
