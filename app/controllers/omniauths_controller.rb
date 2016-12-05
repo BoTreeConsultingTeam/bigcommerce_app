@@ -41,24 +41,31 @@ class OmniauthsController < ApplicationController
     # Login and redirect to home page
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
-
   end
 
   private
 
   def parse_signed_payload
+      puts "request started "
+      puts "#{params} <<<<<<<<<<<<<<<<<<<<<<<<< Params"
     signed_payload = params[:signed_payload]
+
     message_parts = signed_payload.split('.')
+    puts "#{message_parts} <<<<<<<<<<<<<<<<<<<<<<<< Message parts"
 
     encoded_json_payload = message_parts[0]
+    puts "Encoded json payload >>>>>>>>>>>>>>>>>>>>>>> #{encoded_json_payload}"
     encoded_hmac_signature = message_parts[1]
-
+    puts "Encoded hmac signature #{encoded_hmac_signature}"
     payload = Base64.decode64(encoded_json_payload)
+    puts "#{payload} <<<<<<<<<<<<<<<<<<<< PAYLOAd"
     provided_signature = Base64.decode64(encoded_hmac_signature)
-
+    puts "provided_signature ><>>>>>>>>>>>>>>>>>>>>> #{provided_signature}"
     expected_signature = sign_payload(bc_client_secret, payload)
+    puts "expected_signature >>>>>>>>>>>>>>> #{expected_signature}"
 
     if secure_compare(expected_signature, provided_signature)
+      puts "going inside"
       return JSON.parse(payload, symbolize_names: true)
     end
 
@@ -81,6 +88,7 @@ class OmniauthsController < ApplicationController
   def render_error(e)
     logger.warn "ERROR: #{e}"
     @error = e
+
     raise e
   end
 
