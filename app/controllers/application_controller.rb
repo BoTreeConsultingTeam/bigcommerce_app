@@ -7,12 +7,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # require to remove X-Frame-Options to load Rails app in iframe on Bigcommerce
   def set_header_for_iframe
     response.headers.delete "X-Frame-Options"
   end
 
   def current_store
-    puts "params >>>>>>>>>>>>>>>>>>>>>>> #{params}"
     @current_store = Store.find(session[:store_id])
   end
 end

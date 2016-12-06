@@ -20,9 +20,7 @@ class OmniauthsController < ApplicationController
       connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
       webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/order_created",  connection: connection  )
       webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/shipment_created",  connection: connection  )
-      # user = store.admin_user
     else
-      # Create store record
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
       store = Store.create(store_hash: store_hash, access_token: token, scope: scope, user_email: email, username: name)
       if store.present?
@@ -53,16 +51,13 @@ class OmniauthsController < ApplicationController
 
   def parse_signed_payload
     signed_payload = params[:signed_payload]
-
     message_parts = signed_payload.split('.')
-
     encoded_json_payload = message_parts[0]
     encoded_hmac_signature = message_parts[1]
     payload = Base64.decode64(encoded_json_payload)
     provided_signature = Base64.decode64(encoded_hmac_signature)
     expected_signature = sign_payload(bc_client_secret, payload)
     if secure_compare(expected_signature, provided_signature)
-      puts "going inside"
       return JSON.parse(payload)
     end
     nil
