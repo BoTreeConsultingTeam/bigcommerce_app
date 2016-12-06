@@ -47,6 +47,34 @@ class OmniauthsController < ApplicationController
     session[:store_id] = @store.id
   end
 
+  def fire_email
+    Mail.defaults do
+      delivery_method :smtp, {
+                    :delivery_method => :smtp,
+          :address   => "smtp.sendgrid.net",
+                                 :port      => 587,
+                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
+                               :user_name => "#{ENV['SENDGRID_USERNAME']}",
+                               :password  => "#{ENV['SENDGRID_PASSWORD']}",
+                               :authentication => 'plain',
+                               :enable_starttls_auto => true }
+    end
+
+    mail = Mail.deliver do
+      to 'nishantupadhyay@botreetechnologies.com'
+      from 'big.commercedemo123@gmail.com'
+      subject 'This is the subject of your email'
+      text_part do
+        body 'Hello world in text'
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body '<b>Hello world in HTML</b>'
+      end
+    end
+    redirect_to root_path
+  end
+
   private
 
   def parse_signed_payload

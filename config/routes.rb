@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get '/auth/:name/callback' => 'omniauths#callback'
   get '/load' => 'omniauths#load'
   get '/uninstall' => 'omniauths#uninstall'
-
+  get '/fire_email' => 'omniauths#fire_email'
   mount Ckeditor::Engine => '/ckeditor'
   resource :omniauth
   # The priority is based upon order of creation: first created -> highest priority.
