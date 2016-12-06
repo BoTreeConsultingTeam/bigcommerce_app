@@ -15,3 +15,16 @@
 //= require turbolinks
 //= require ckeditor/init
 //= require_tree .
+
+$(document).ready(function() {
+  $("#active_store_template_email_type_id").on('change', function(){
+    if($("#active_store_template_email_type_id option:selected").text() == 'order'){
+    	$("#template-selection-area-order").show();
+    	$("#template-selection-area-shipment").hide();
+    }else{
+    	$("#template-selection-area-order").hide();
+    	$("#template-selection-area-shipment").show();
+    }
+  });
+});
+

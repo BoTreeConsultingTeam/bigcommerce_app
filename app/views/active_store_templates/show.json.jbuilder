@@ -1,0 +1,1 @@
+json.partial! "active_store_templates/active_store_template", active_store_template: @active_store_template

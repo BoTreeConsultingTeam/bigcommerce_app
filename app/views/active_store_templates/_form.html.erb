@@ -1,0 +1,18 @@
+<%= simple_form_for(@active_store_template) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+  	<%= f.input :email_type_id, collection: EmailType.pluck(:name, :id), include_blank: false %>
+  	<div id="template-selection-area-order">
+  		<%= f.input :template_id, collection: current_store.order_templates.pluck(:subject, :id), include_blank: false, label: 'Order Template' %>
+  	</div>
+  	<div id="template-selection-area-shipment" style="display: none;">
+  		<%= f.input :template_id, collection: current_store.shipment_templates.pluck(:subject, :id), include_blank: false, label: 'Shipment Template'  %>
+  	</div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Activ" %>
+    <%= link_to 'Cancel', active_store_templates_path, class: 'btn btn-default', method: :get %>
+  </div>
+<% end %>

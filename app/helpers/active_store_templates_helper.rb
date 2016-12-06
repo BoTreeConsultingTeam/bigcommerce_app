@@ -1,0 +1,2 @@
+module ActiveStoreTemplatesHelper
+end

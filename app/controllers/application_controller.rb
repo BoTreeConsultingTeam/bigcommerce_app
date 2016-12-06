@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   def current_store
-    @current_store = Store.find(session[:store_id])
+    @current_store = Store.last #Store.find(session[:store_id])
   end
 end

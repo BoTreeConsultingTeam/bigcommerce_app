@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205120425) do
+ActiveRecord::Schema.define(version: 20161206070431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_store_templates", force: :cascade do |t|
+    t.integer  "store_id"
+    t.integer  "email_type_id"
+    t.integer  "template_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "active_store_templates", ["email_type_id"], name: "index_active_store_templates_on_email_type_id", using: :btree
+  add_index "active_store_templates", ["store_id"], name: "index_active_store_templates_on_store_id", using: :btree
+  add_index "active_store_templates", ["template_id"], name: "index_active_store_templates_on_template_id", using: :btree
 
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false

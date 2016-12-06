@@ -1,4 +1,21 @@
 <p id="notice"><%= notice %></p>
-
-<%= link_to 'Edit', edit_template_path(@template) %> |
-<%= link_to 'Back', templates_path %>
+<div class="container" style="margin-top: 90px;">
+	<div class="row">
+		<h1>Preview Template</h1>
+		<hr/>
+		<div class="col-xs-2"><strong>Type:</strong></div>
+		<div class="col-xs-10"><%= @template.email_type.name%></div>
+		<div class="clearfix"></div>
+		<div class="col-xs-2"><strong>Subject:</strong></div>
+		<div class="col-xs-10"><%= @template.subject%></div>
+		<div class="clearfix"></div>
+		<div class="col-xs-2"><strong>Body:</strong></div>
+		<div class="col-xs-10"><%= @template.body.html_safe%></div>
+		<div class="clearfix"></div>
+	  <hr/>
+	  <div class="col-xs-12">
+		  <%= link_to 'Edit', edit_template_path(@template), method: :get %> |
+		  <%= link_to 'Back', templates_path, method: :get %>
+	  </div>
+	</div>
+</div>

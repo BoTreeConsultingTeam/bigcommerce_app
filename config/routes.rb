@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :templates
+  resources :active_store_templates, :only => [:new, :create, :index]
 
   # Bigcommerce Webhooks related routes
   resources :hooks do
