@@ -72,6 +72,7 @@ class OmniauthsController < ApplicationController
         body '<b>Hello world in HTML</b>'
       end
     end
+    redirect_to root_path
   end
 
   private
