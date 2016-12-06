@@ -22,11 +22,11 @@ class OmniauthsController < ApplicationController
       webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/shipment_created",  connection: connection  )
     else
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
-      store = Store.create(store_hash: store_hash, access_token: token, scope: scope, user_email: email, username: name)
+      store = Store.create(store_hash: store_hash, access_token: token, scope: scope, email: email, username: name)
       if store.present?
         connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
-        webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/order_created",  connection: connection  )
-        webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/shipment_created",  connection: connection  )
+        webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/order_created",  connection: connection  )
+        webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/shipment_created",  connection: connection  )
       end
       session[:store_id] = store.id
     end
