@@ -10,7 +10,7 @@ class HooksController < ApplicationController
                     :delivery_method => :smtp,
           :address   => "smtp.sendgrid.net",
                                  :port      => 587,
-                               :domain    => "localhost:3000",
+                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
                                :user_name => "#{ENV['SENDGRID_USERNAME']}",
                                :password  => "#{ENV['SENDGRID_PASSWORD']}",
                                :authentication => 'plain',
