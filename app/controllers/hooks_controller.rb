@@ -31,6 +31,7 @@ class HooksController < ApplicationController
     # end
 
     # write code to handle logic after webhook of order is called
+    Rails.logger.debug("teset") ">>>>>>>>>>>>>>>>>"
     render nothing: true, status: 200
   end
 
