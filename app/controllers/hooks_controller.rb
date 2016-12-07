@@ -5,33 +5,32 @@ class HooksController < ApplicationController
 
   def order_created
 
-    # Mail.defaults do
-    #   delivery_method :smtp, {
-    #                 :delivery_method => :smtp,
-    #       :address   => "smtp.sendgrid.net",
-    #                              :port      => 587,
-    #                            :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
-    #                            :user_name => "#{ENV['SENDGRID_USERNAME']}",
-    #                            :password  => "#{ENV['SENDGRID_PASSWORD']}",
-    #                            :authentication => 'plain',
-    #                            :enable_starttls_auto => true }
-    # end
-    #
-    # mail = Mail.deliver do
-    #   to 'nishantupadhyay@botreetechnologies.com'
-    #   from 'big.commercedemo123@gmail.com'
-    #   subject 'This is the subject of your email'
-    #   text_part do
-    #     body 'Hello world in text'
-    #   end
-    #   html_part do
-    #     content_type 'text/html; charset=UTF-8'
-    #     body '<b>Hello world in HTML</b>'
-    #   end
-    # end
+    Mail.defaults do
+      delivery_method :smtp, {
+                    :delivery_method => :smtp,
+          :address   => "smtp.sendgrid.net",
+                                 :port      => 587,
+                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
+                               :user_name => "#{ENV['SENDGRID_USERNAME']}",
+                               :password  => "#{ENV['SENDGRID_PASSWORD']}",
+                               :authentication => 'plain',
+                               :enable_starttls_auto => true }
+    end
+
+    mail = Mail.deliver do
+      to 'nishantupadhyay@botreetechnologies.com'
+      from 'big.commercedemo123@gmail.com'
+      subject 'This is the subject of your email'
+      text_part do
+        body 'Hello world in text'
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body '<b>Hello world in HTML</b>'
+      end
+    end
 
     # write code to handle logic after webhook of order is called
-    Rails.logger.debug("teset") ">>>>>>>>>>>>>>>>>"
     render nothing: true, status: 200
   end
 
