@@ -43,6 +43,8 @@ gem "paperclip", "~> 5.0.0"
 gem 'ckeditor'
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern web app frameworks and ORMs
 gem 'kaminari'
+# Creates a link tag of the given name using a URL created by the set of options.
+gem 'active_link_to'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
