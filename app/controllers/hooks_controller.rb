@@ -4,7 +4,9 @@ class HooksController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def order_created
-
+    puts "#{params} PARAMS"
+    Rails.logger.info "#{params} PARAMS"
+    Rails.logger.info "#{params} PARAMS"
     Mail.defaults do
       delivery_method :smtp, {
                     :delivery_method => :smtp,
