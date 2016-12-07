@@ -18,8 +18,8 @@ class OmniauthsController < ApplicationController
       store.update(access_token: token, scope: scope)
 
       connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
-      webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/order_created",  connection: connection  )
-      webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://mysterious-citadel-27744.herokuapp.com/hooks/shipment_created",  connection: connection  )
+      webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/order_created",  connection: connection  )
+      webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/shipment_created",  connection: connection  )
     else
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
       store = Store.create(store_hash: store_hash, access_token: token, scope: scope, email: email, username: name)
@@ -48,31 +48,45 @@ class OmniauthsController < ApplicationController
   end
 
   def fire_email
-    Mail.defaults do
-      delivery_method :smtp, {
-                    :delivery_method => :smtp,
-          :address   => "smtp.sendgrid.net",
-                                 :port      => 587,
-                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
-                               :user_name => "#{ENV['SENDGRID_USERNAME']}",
-                               :password  => "#{ENV['SENDGRID_PASSWORD']}",
-                               :authentication => 'plain',
-                               :enable_starttls_auto => true }
-    end
-
-    mail = Mail.deliver do
-      to 'nishantupadhyay@botreetechnologies.com'
-      from 'big.commercedemo123@gmail.com'
-      subject 'This is the subject of your email'
-      text_part do
-        body 'Hello world in text'
-      end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body '<b>Hello world in HTML</b>'
-      end
-    end
-    redirect_to root_path
+    # Mail.defaults do
+    #   delivery_method :smtp, {
+    #                 :delivery_method => :smtp,
+    #       :address   => "smtp.sendgrid.net",
+    #                              :port      => 587,
+    #                            :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
+    #                            :user_name => "#{ENV['SENDGRID_USERNAME']}",
+    #                            :password  => "#{ENV['SENDGRID_PASSWORD']}",
+    #                            :authentication => 'plain',
+    #                            :enable_starttls_auto => true }
+    # end
+    #
+    # @template = Template.last
+    #
+    # vars = { "%%USERNAME%%" => 'Nishant Upadhyay', '%%ORDER_ID%%' => '12345' }
+    #
+    # q_subject = @template.subject
+    # vars.keys.each do |key|
+    #   q_subject = q_subject.gsub key, vars[key]
+    # end
+    #
+    # q_body = @template.body
+    # vars.keys.each do |key|
+    #   q_body = q_body.gsub key, vars[key]
+    # end
+    #
+    # mail = Mail.deliver do
+    #   to 'nishantupadhyay@botreetechnologies.com'
+    #   from 'big.commercedemo123@gmail.com'
+    #   subject q_subject
+    #   text_part do
+    #     body q_body
+    #   end
+    #   html_part do
+    #     content_type 'text/html; charset=UTF-8'
+    #     body q_body
+    #   end
+    # end
+    # redirect_to root_path
   end
 
   private
