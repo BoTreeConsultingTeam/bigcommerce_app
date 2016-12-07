@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/fire_email' => 'omniauths#fire_email'
   mount Ckeditor::Engine => '/ckeditor'
   resource :omniauth
+  get '/default_template' => 'home#default_template'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
