@@ -24,7 +24,6 @@ class TemplatesController < ApplicationController
   # POST /templates
   def create
     @template = current_store.templates.build(template_params)
-
     respond_to do |format|
       if @template.save
         format.html { redirect_to templates_url, notice: 'Template was successfully created.' }

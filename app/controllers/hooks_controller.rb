@@ -12,31 +12,7 @@ class HooksController < ApplicationController
       Bigcommerce::Config.new(store_hash: store_hash, client_id: ENV['BC_CLIENT_ID'],
       access_token: store.access_token)
     )
-    order = Bigcommerce::Order.find(order_id, connection: connection)
-
-    if order
-      @order = OpenStruct.new(order)
-    else
-      redirect_to root_path and return
-    end
-
-    order_products = Bigcommerce::OrderProduct.all(order_id, connection: connection)
-
-    @order_products = []
-
-    if order_products
-      order_products.each do |product|
-        @order_products << OpenStruct.new(product)
-      end
-    else
-      redirect_to root_path and return
-    end
-
-    @customer = Bigcommerce::Customer.find(@order.customer_id, connection: connection)
-    shipping_addresses = Bigcommerce::OrderShippingAddress.all(@order.id, connection: connection)
-    @shiping_address = OpenStruct.new(shipping_addresses.first)
-
-    var_hash = prepare_variable_hash(@order, @order_products, @customer, @shiping_address,connection)
+    var_hash = prepare_variable_hash(order_id, connection)
     Mail.defaults do
       delivery_method :smtp, {
                     :delivery_method => :smtp,
@@ -48,7 +24,8 @@ class HooksController < ApplicationController
                                :authentication => 'plain',
                                :enable_starttls_auto => true }
     end
-    @template = current_store.active_store_templates.last.template
+    @available_template = current_store.order_templates.last
+    @template = @available_template.present? ? @available_template.template : Template.first
     tempale_body = @template.body
     vars = var_hash
     q_body = tempale_body
@@ -77,14 +54,85 @@ class HooksController < ApplicationController
   end
 
   def shipment_created
+    order_id = params['data']['id']
+    store_hash = params['producer'].split('/').last
+    store = Store.find_by(store_hash: store_hash)
+
+    connection = Bigcommerce::Connection.build(
+      Bigcommerce::Config.new(store_hash: store_hash, client_id: ENV['BC_CLIENT_ID'],
+      access_token: store.access_token)
+    )
+    var_hash = prepare_variable_hash(order_id, connection)
+    Mail.defaults do
+      delivery_method :smtp, {
+                    :delivery_method => :smtp,
+          :address   => "smtp.sendgrid.net",
+                                 :port      => 587,
+                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
+                               :user_name => "#{ENV['SENDGRID_USERNAME']}",
+                               :password  => "#{ENV['SENDGRID_PASSWORD']}",
+                               :authentication => 'plain',
+                               :enable_starttls_auto => true }
+    end
+    @available_template = current_store.shipment_templates.last
+    @template = @available_template.present? ? @available_template.template : Template.second
+    tempale_body = @template.body
+    vars = var_hash
+    q_body = tempale_body
+    vars.keys.each do |key|
+      q_body = q_body.gsub key, vars[key]
+    end
+
+    q_subject = @template.subject
+    vars.keys.each do |key|
+      q_subject = q_subject.gsub key, vars[key]
+    end
+
+    mail = Mail.deliver do
+      to 'nishantupadhyay@botreetechnologies.com'
+      from 'big.commercedemo123@gmail.com'
+      subject q_subject.html_safe
+      text_part do
+        body q_body.html_safe
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body q_body.html_safe
+      end
+    end
     # write code to handle logic after webhook of shipment creation is called
-    puts "PARAM >>>>>>>>>>>>>>> #{params}"
     render nothing: true, status: 200
   end
 
   private
 
-  def prepare_variable_hash(order, order_products, customer, shiping_address, connection)
+  def prepare_variable_hash(order_id, connection)
+
+    order = Bigcommerce::Order.find(order_id, connection: connection)
+
+    if order
+      order = OpenStruct.new(order)
+    else
+      redirect_to root_path and return
+    end
+
+    order_products = Bigcommerce::OrderProduct.all(order_id, connection: connection)
+
+    order_products = []
+
+    if order_products
+      order_products.each do |product|
+        order_products << OpenStruct.new(product)
+      end
+    else
+      redirect_to root_path and return
+    end
+
+    customer = Bigcommerce::Customer.find(order.customer_id, connection: connection)
+    shipping_addresses = Bigcommerce::OrderShippingAddress.all(order.id, connection: connection)
+    shiping_address = OpenStruct.new(shipping_addresses.first)
+
+
     h = {}
     h["%%ORDER_created_at%%"] = Date.today.to_s
     h["%%ORDER_id%%"] = order.id.to_s
