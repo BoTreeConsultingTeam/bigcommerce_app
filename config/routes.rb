@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   get '/auth/:name/callback' => 'omniauths#callback'
   get '/load' => 'omniauths#load'
   get '/uninstall' => 'omniauths#uninstall'
-  get '/fire_email' => 'omniauths#fire_email'
   mount Ckeditor::Engine => '/ckeditor'
   resource :omniauth
   get '/default_template' => 'home#default_template'

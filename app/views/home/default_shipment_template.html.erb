@@ -26,14 +26,14 @@
        </table> </td>
      </tr>
     <tr>
-     <td style="width:640px" colspan="2"> <p style="font:18px Arial,sans-serif;color:#cc6600;margin:15px 20px 0 20px">Hello %%CUSTOMER_first_name%% %%CUSTOMER_last_name%%,</p> <p style="margin:4px 20px 18px 20px;width:640px"> We thought you'd like to know that we've dispatched this portion of your order separately to give you quicker service. You won't be charged any extra shipping fees, and the remainder of your order will follow as soon as those items become available. If you need to return an item from this shipment or manage other orders, please visit <a data-saferedirecturl="javascript:;" target="_blank" style="color:#006699;text-decoration:none" href="javascript:;">Your Orders</a> on bigcommerce.com. </p> </td>
+     <td style="width:640px" colspan="2"> <p style="font:18px Arial,sans-serif;color:#cc6600;margin:15px 20px 0 20px">Hello {{CUSTOMER_first_name}} {{CUSTOMER_last_name}},</p> <p style="margin:4px 20px 18px 20px;width:640px"> We thought you'd like to know that we've dispatched this portion of your order separately to give you quicker service. You won't be charged any extra shipping fees, and the remainder of your order will follow as soon as those items become available. If you need to return an item from this shipment or manage other orders, please visit <a data-saferedirecturl="javascript:;" target="_blank" style="color:#006699;text-decoration:none" href="javascript:;">Your Orders</a> on bigcommerce.com. </p> </td>
     </tr>
     <tr>
      <td style="padding:0 20px;width:640px" colspan="2">
       <table cellspacing="0" cellpadding="0" style="border-top:3px solid #2d3741;width:640px">
        <tbody>
         <tr>
-         <td valign="top" style="font:14px Arial,san-serif;padding:11px 18px 14px 18px;width:280px;background-color:#efefef"><span style="color:#666">Your package was sent to:</span><br> <p style="margin:2px 0"> <strong> %%CUSTOMER_first_name%% %%CUSTOMER_last_name%% <br> %%SHIPPING_address%% </p> </td>
+         <td valign="top" style="font:14px Arial,san-serif;padding:11px 18px 14px 18px;width:280px;background-color:#efefef"><span style="color:#666">Your package was sent to:</span><br> <p style="margin:2px 0"> <strong> {{CUSTOMER_first_name}} {{CUSTOMER_last_name}} <br> {{SHIPPING_address}} </p> </td>
         </tr>
         <tr>
          <td style="font-size:10px;color:#666;padding:0 10px 20px 10px;line-height:16px;width:640px" colspan="2"> <p style="margin:10px 0 0 0;font:11px/16px Arial,sans-serif;color:#333"> Your package is being shipped by Bigcommerce Transportation Services and the tracking number is 211150635008. Please note that a signature may be required for the delivery of the package. </p> </td>
