@@ -48,45 +48,45 @@ class OmniauthsController < ApplicationController
   end
 
   def fire_email
-    # Mail.defaults do
-    #   delivery_method :smtp, {
-    #                 :delivery_method => :smtp,
-    #       :address   => "smtp.sendgrid.net",
-    #                              :port      => 587,
-    #                            :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
-    #                            :user_name => "#{ENV['SENDGRID_USERNAME']}",
-    #                            :password  => "#{ENV['SENDGRID_PASSWORD']}",
-    #                            :authentication => 'plain',
-    #                            :enable_starttls_auto => true }
-    # end
-    #
-    # @template = Template.last
-    #
-    # vars = { "%%USERNAME%%" => 'Nishant Upadhyay', '%%ORDER_ID%%' => '12345' }
-    #
-    # q_subject = @template.subject
-    # vars.keys.each do |key|
-    #   q_subject = q_subject.gsub key, vars[key]
-    # end
-    #
-    # q_body = @template.body
-    # vars.keys.each do |key|
-    #   q_body = q_body.gsub key, vars[key]
-    # end
-    #
-    # mail = Mail.deliver do
-    #   to 'nishantupadhyay@botreetechnologies.com'
-    #   from 'big.commercedemo123@gmail.com'
-    #   subject q_subject
-    #   text_part do
-    #     body q_body
-    #   end
-    #   html_part do
-    #     content_type 'text/html; charset=UTF-8'
-    #     body q_body
-    #   end
-    # end
-    # redirect_to root_path
+    Mail.defaults do
+      delivery_method :smtp, {
+                    :delivery_method => :smtp,
+          :address   => "smtp.sendgrid.net",
+                                 :port      => 587,
+                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
+                               :user_name => "#{ENV['SENDGRID_USERNAME']}",
+                               :password  => "#{ENV['SENDGRID_PASSWORD']}",
+                               :authentication => 'plain',
+                               :enable_starttls_auto => true }
+    end
+
+    @template = Template.last
+
+    vars = { "%%USERNAME%%" => 'Nishant Upadhyay', '%%ORDER_ID%%' => '12345' }
+
+    q_subject = @template.subject
+    vars.keys.each do |key|
+      q_subject = q_subject.gsub key, vars[key]
+    end
+
+    q_body = @template.body
+    vars.keys.each do |key|
+      q_body = q_body.gsub key, vars[key]
+    end
+
+    mail = Mail.deliver do
+      to 'nishantupadhyay@botreetechnologies.com'
+      from 'big.commercedemo123@gmail.com'
+      subject "Your Amazon.in order of ABC... and 2 more item(s)"
+      text_part do
+        body q_body.html_safe
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body q_body.html_safe
+      end
+    end
+    redirect_to root_path
   end
 
   private

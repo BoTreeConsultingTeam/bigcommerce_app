@@ -21,6 +21,7 @@ class ActiveStoreTemplatesController < ApplicationController
 
   # POST /active_store_templates
   def create
+    binding.pry
     @active_store_template = current_store.set_active_template(active_store_template_params)
 
     respond_to do |format|
