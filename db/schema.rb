@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206070431) do
+ActiveRecord::Schema.define(version: 20161208125318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,20 @@ ActiveRecord::Schema.define(version: 20161206070431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "smtp_details", force: :cascade do |t|
+    t.integer  "store_id"
+    t.string   "delivery_method"
+    t.string   "address"
+    t.integer  "port"
+    t.string   "domain"
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "smtp_details", ["store_id"], name: "index_smtp_details_on_store_id", using: :btree
 
   create_table "stores", force: :cascade do |t|
     t.string   "store_hash"
