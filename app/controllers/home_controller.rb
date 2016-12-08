@@ -9,6 +9,11 @@ class HomeController < ApplicationController
         first_name: 'Nishant',
         last_name: 'Upadhyay'
     })
+    render :layout => false
+  end
+
+  def default_shipment_template
+    render :layout => false
   end
 
   private
