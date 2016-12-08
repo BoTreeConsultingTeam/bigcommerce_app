@@ -4,7 +4,7 @@ class TemplatesController < ApplicationController
   # GET /templates
   # GET /templates.json
   def index
-    @templates = Template.page(params[:page])
+    @templates = current_store.templates.page(params[:page])
   end
 
   # GET /templates/1
@@ -52,6 +52,25 @@ class TemplatesController < ApplicationController
     end
   end
 
+  def list_event_types
+    @event = Event.find(params[:event])
+    @event_types = @event.event_types if @event
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def toggle_active
+    template = Template.find(params[:id])
+    unless template.active?
+      current_active_template = Template.find_by(active: true)
+      current_active_template.update_attributes(active: false)
+      template.update_attributes(active: true)
+    end
+    @templates = current_store.templates.page(params[:page])
+    redirect_to templates_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_template
@@ -60,6 +79,6 @@ class TemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def template_params
-      params.fetch(:template, {}).permit(:email_type_id, :subject, :body)
+      params.fetch(:template, {}).permit(:email_type_id, :subject, :body, :event_id, :event_type_id, :active, :name)
     end
 end

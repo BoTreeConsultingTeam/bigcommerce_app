@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'home#index'
   get '/auth/:name/callback' => 'omniauths#callback'
   get '/load' => 'omniauths#load'
   get '/uninstall' => 'omniauths#uninstall'
@@ -6,12 +7,13 @@ Rails.application.routes.draw do
   resource :omniauth
   get '/default_template' => 'home#default_template'
   get '/default_shipment_template' => 'home#default_shipment_template'
+  get '/toggle/:id' => "templates#toggle_active", as: :toggle_active
+  get '/event_types/list' => 'templates#list_event_types'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

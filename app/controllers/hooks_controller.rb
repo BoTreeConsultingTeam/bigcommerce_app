@@ -8,8 +8,8 @@ class HooksController < ApplicationController
     store_hash = params['producer'].split('/').last
     store = Store.find_by(store_hash: store_hash)
     connection = prepare_connection(store, store_hash)
-    available_template = current_store.active_store_templates.where(email_type_id: 1).first
-    @template = available_template.present? ? available_template.template : Template.first
+    available_template = current_store.active_order_created_event_template.first
+    @template = available_template.present? ? available_template : Template.first
     q_body = @template.body
     vars = prepare_variable_hash(order_id, connection)
     vars.keys.each do |key|
@@ -35,8 +35,8 @@ class HooksController < ApplicationController
 
     vars = prepare_variable_hash(order_id, connection)
 
-    available_template = current_store.active_store_templates.where(email_type_id: 2).first
-    @template = available_template.present? ? available_template.template : Template.second
+    available_template = current_store.active_shipment_created_event_template.first
+    @template = available_template.present? ? available_template : Template.second
     q_body = @template.body
     vars.keys.each do |key|
       q_body = q_body.gsub key, vars[key]

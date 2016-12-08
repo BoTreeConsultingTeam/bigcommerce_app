@@ -21,4 +21,16 @@ class Store < ActiveRecord::Base
     set_active_template({:email_type_id => order_template.email_type_id, :template_id => order_template.id})
     set_active_template({:email_type_id => shipment_template.email_type_id, :template_id => shipment_template.id})
   end
+
+  def active_order_created_event_template
+    event = Event.find_by(name: 'order')
+    event_type =  EventType.find_by(name: 'order created')
+    templates.where(event_id: event.id, event_type_id: event_type.id, active: true)
+  end
+
+  def active_shipment_created_event_template
+    event = Event.find_by(name: 'shipment')
+    event_type =  EventType.find_by(name: 'shipment created')
+    templates.where(event_id: event.id, event_type_id: event_type.id, active: true)
+  end
 end

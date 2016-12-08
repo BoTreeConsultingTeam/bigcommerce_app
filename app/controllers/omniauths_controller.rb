@@ -29,6 +29,8 @@ class OmniauthsController < ApplicationController
         webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "#{app_url}/hooks/shipment_created",  connection: connection  )
       end
       session[:store_id] = store.id
+      logo = Bigcommerce::StoreInfo.info(connection: connection)['logo']
+      session[:store_logo] = logo.present? ? logo['url'] : 'assets/default_logo.png'
     end
     render 'home/index', status: 200
   end
@@ -45,9 +47,12 @@ class OmniauthsController < ApplicationController
     store_hash = payload['store_hash']
     # Lookup store
     @store = Store.find_by(store_hash: store_hash)
+    connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: @store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: @store.access_token))
     return render_error("[load] Store not found!") unless @store
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
+    logo = Bigcommerce::StoreInfo.info(connection: connection)['logo']
+    session[:store_logo] = logo.present? ? logo['url'] : 'assets/default_logo.png'
   end
 
   private

@@ -38,8 +38,9 @@
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Type</th>
-									<th>Subject</th>
+									<th>Name</th>
+									<th>Event</th>
+									<th>Event Type</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -48,11 +49,16 @@
 									<% @templates.each_with_index do |template, index| %>
 										<tr>
 											<td><%= index + 1%></td>
-											<td><%= template.email_type.name%></td>
-											<td><%= template.subject%></td>
+											<td><%= template.name %></td>
+											<td><%= template.event.name if template.event.present? %></td>
+											<td><%= template.event_type.name if template.event_type.present? %></td>
 											<td>
 												<%= link_to template, method: :get, style: 'font-size: 25px;' do %>
 												  <i class="pe-7s-look"></i>
+												<% end %>
+												<%= link_to toggle_active_path(template.id), method: :get, style: 'font-size: 25px;' do %>
+													<% sym = template.active? ? "fa-check disabled" : "fa-check disabled" %>
+													<i class="fa <%= sym %>" ></i>
 												<% end %>
 											</td>
 										</tr>

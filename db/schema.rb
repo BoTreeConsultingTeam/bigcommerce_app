@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206070431) do
+ActiveRecord::Schema.define(version: 20161208115556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,19 @@ ActiveRecord::Schema.define(version: 20161206070431) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "event_types", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "stores", force: :cascade do |t|
     t.string   "store_hash"
     t.string   "access_token"
@@ -68,6 +81,10 @@ ActiveRecord::Schema.define(version: 20161206070431) do
     t.text     "body"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "name"
+    t.boolean  "active"
+    t.integer  "event_id"
+    t.integer  "event_type_id"
   end
 
   add_index "templates", ["email_type_id"], name: "index_templates_on_email_type_id", using: :btree

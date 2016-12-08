@@ -37,12 +37,20 @@
 				<div class="border-top border-left border-right bg-light">
 					<div class="p-m">
 						<div>
-							<span class="font-extra-bold">Type: </span>
-							<%= @template.email_type.name%>
+							<span class="font-extra-bold">Event: </span>
+							<%= @template.event.name%>
+						</div>
+						<div>
+							<span class="font-extra-bold">Event Type: </span>
+							<%= @template.event_type.name%>
 						</div>
 						<div>
 							<span class="font-extra-bold">Subject: </span>
 							<%= @template.subject%>
+						</div>
+						<div>
+							<span class="font-extra-bold">Status: </span>
+							<%= @template.active? ? "Active" : "In-Active"%>
 						</div>
 					</div>
 				</div>
@@ -168,4 +176,3 @@
 		<small> Lorem Ipsum is simply dummy text of the printing simply all dummy text.
 			Many desktop publishing packages and web page editors. </small>
 	</div>
-
