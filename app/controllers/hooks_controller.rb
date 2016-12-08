@@ -8,8 +8,8 @@ class HooksController < ApplicationController
     store_hash = params['producer'].split('/').last
     store = Store.find_by(store_hash: store_hash)
     connection = prepare_connection(store, store_hash)
-    available_template = current_store.order_templates.last
-    @template = available_template.present? ? available_template : Template.first
+    available_template = current_store.active_store_templates.where(email_type_id: 1).first
+    @template = available_template.present? ? available_template.template : Template.first
     q_body = @template.body
     vars = prepare_variable_hash(order_id, connection)
     vars.keys.each do |key|
@@ -34,8 +34,9 @@ class HooksController < ApplicationController
     connection = prepare_connection(store, store_hash)
 
     vars = prepare_variable_hash(order_id, connection)
-    available_template = current_store.shipment_templates.last
-    @template = available_template.present? ? available_template : Template.second
+
+    available_template = current_store.active_store_templates.where(email_type_id: 2).first
+    @template = available_template.present? ? available_template.template : Template.second
     q_body = @template.body
     vars.keys.each do |key|
       q_body = q_body.gsub key, vars[key]
@@ -96,7 +97,6 @@ class HooksController < ApplicationController
     variables_mapping_hash["{{ORDER_shipping_charge}}"] = order.shipping_cost_inc_tax
     variables_mapping_hash["{{ORDER_total}}"] = order.total_inc_tax
     variables_mapping_hash["email"] = customer.email
-    puts variables_mapping_hash
     variables_mapping_hash
   end
 
@@ -112,7 +112,7 @@ class HooksController < ApplicationController
                     :delivery_method => :smtp,
         :address   => "smtp.sendgrid.net",
                                :port      => 587,
-                             :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
+                             :domain    => "https://f62bd521.ngrok.io/",
                              :user_name => "#{ENV['SENDGRID_USERNAME']}",
                              :password  => "#{ENV['SENDGRID_PASSWORD']}",
                              :authentication => 'plain',
