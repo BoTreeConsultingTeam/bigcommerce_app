@@ -1,18 +1,36 @@
-<%= simple_form_for(@active_store_template) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-  	<%= f.input :email_type_id, collection: EmailType.pluck(:name, :id), include_blank: false %>
-  	<div id="template-selection-area-order">
-  		<%= f.input :template_id, collection: current_store.order_templates.pluck(:subject, :id), include_blank: false, label: 'Order Template' %>
-  	</div>
-  	<div id="template-selection-area-shipment" style="display: none;">
-  		<%= f.input :template_id, collection: current_store.shipment_templates.pluck(:subject, :id), include_blank: false, label: 'Shipment Template'  %>
-  	</div>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Activ" %>
-    <%= link_to 'Cancel', active_store_templates_path, class: 'btn btn-default', method: :get %>
-  </div>
-<% end %>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="hpanel">
+			<div class="panel-body">
+				<%= simple_form_for(@active_store_template, html: {class: 'form-horizontal'}) do |f| %>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Email Type</label>
+					<div class="col-sm-10">
+						<%= f.input :email_type_id, collection: EmailType.pluck(:name, :id), include_blank: false, label: false %>
+					</div>
+					<div class="clearfix"></div>
+					<label class="col-sm-2 control-label" id="template-selection-area-order-label">Order Template</label>
+					<div class="col-sm-10">
+						<div id="template-selection-area-order">
+							<%= f.input :template_id, collection: current_store.order_templates.pluck(:subject, :id), include_blank: false, label: false %>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<label class="col-sm-2 control-label" style="display: none;" id="template-selection-area-shipment-label">Shipment Template</label>
+					<div class="col-sm-10">
+						<div id="template-selection-area-shipment" style="display: none;">
+							<%= f.input :template_id, collection: current_store.shipment_templates.pluck(:subject, :id), include_blank: false, label: false  %>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-8 col-sm-offset-2">
+						<%= f.button :submit, "Activate" %>
+						<%= link_to 'Cancel', active_store_templates_path, class: 'btn btn-default', method: :get %>
+					</div>
+				</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
