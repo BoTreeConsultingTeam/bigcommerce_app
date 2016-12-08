@@ -41,29 +41,24 @@ BigCommerce.Template = {
 					$("#template-selection-area-shipment-label").show();
 				}
 			});
-		});
-
-		$(document).ready(function() {
 			$("#template_id").val($('#active_store_template_order_template_id option:selected').val());
 
 			$("#active_store_template_email_type_id").on('change', function() {
 				if ($("#active_store_template_email_type_id option:selected").text() == 'order') {
 					$("#template_id").val($('#active_store_template_order_template_id option:selected').val());
-					console.log($("#template_id").val());
 				} else {
-					console.log("shipment");
 					$("#template_id").val($('#active_store_template_shipment_template_id option:selected').val());
-					console.log($("#template_id").val());
 				}
 			});
 
 			$("#active_store_template_order_template_id").on('change', function() {
-				console.log("test" + this);
+
+				var current_val = $('#active_store_template_order_template_id option:selected').val();
+				$("#template_id").val(current_val);
 			});
 
 			$("#active_store_template_shipment_template_id").on('change', function() {
-				var current_val = $('active_store_template_shipment_template_id option:selected').val();
-				console.log("test" + current_val);
+				var current_val = $('#active_store_template_shipment_template_id option:selected').val();
 				$("#template_id").val(current_val);
 			});
 		});

@@ -20,20 +20,20 @@
           </td>
          </tr>
          <tr>
-          <td style='text-align:right;padding:7px 0 5px 0;vertical-align:top;font-size:13px;line-height:18px;font-family:Arial,sans-serif' colspan='3'> <h2 style='font-size:20px;line-height:24px;margin:0;padding:0;font-weight:normal;color:rgb(0,0,0)!important'>Order Confirmation</h2> Order #<span style='color:#000;text-decoration:none;font:12px/16px Arial,sans-serif'>%%ORDER_id%%</span> <br> </td>
+          <td style='text-align:right;padding:7px 0 5px 0;vertical-align:top;font-size:13px;line-height:18px;font-family:Arial,sans-serif' colspan='3'> <h2 style='font-size:20px;line-height:24px;margin:0;padding:0;font-weight:normal;color:rgb(0,0,0)!important'>Order Confirmation</h2> Order #<span style='color:#000;text-decoration:none;font:12px/16px Arial,sans-serif'>{{ORDER_id}}</span> <br> </td>
          </tr>
         </tbody>
        </table> </td>
      </tr>
     <tr>
-     <td style="width:640px" colspan="2"> <p style="font:18px Arial,sans-serif;color:#cc6600;margin:15px 20px 0 20px">Hello %%CUSTOMER_first_name%% %%CUSTOMER_last_name%%,</p> <p style="margin:4px 20px 18px 20px;width:640px"> We thought you'd like to know that we've dispatched this portion of your order separately to give you quicker service. You won't be charged any extra shipping fees, and the remainder of your order will follow as soon as those items become available. If you need to return an item from this shipment or manage other orders, please visit <a data-saferedirecturl="javascript:;" target="_blank" style="color:#006699;text-decoration:none" href="javascript:;">Your Orders</a> on bigcommerce.com. </p> </td>
+     <td style="width:640px" colspan="2"> <p style="font:18px Arial,sans-serif;color:#cc6600;margin:15px 20px 0 20px">Hello {{CUSTOMER_first_name}} {{CUSTOMER_last_name}},</p> <p style="margin:4px 20px 18px 20px;width:640px"> We thought you'd like to know that we've dispatched this portion of your order separately to give you quicker service. You won't be charged any extra shipping fees, and the remainder of your order will follow as soon as those items become available. If you need to return an item from this shipment or manage other orders, please visit <a data-saferedirecturl="javascript:;" target="_blank" style="color:#006699;text-decoration:none" href="javascript:;">Your Orders</a> on bigcommerce.com. </p> </td>
     </tr>
     <tr>
      <td style="padding:0 20px;width:640px" colspan="2">
       <table cellspacing="0" cellpadding="0" style="border-top:3px solid #2d3741;width:640px">
        <tbody>
         <tr>
-         <td valign="top" style="font:14px Arial,san-serif;padding:11px 18px 14px 18px;width:280px;background-color:#efefef"><span style="color:#666">Your package was sent to:</span><br> <p style="margin:2px 0"> <strong> %%CUSTOMER_first_name%% %%CUSTOMER_last_name%% <br> %%SHIPPING_address%% </p> </td>
+         <td valign="top" style="font:14px Arial,san-serif;padding:11px 18px 14px 18px;width:280px;background-color:#efefef"><span style="color:#666">Your package was sent to:</span><br> <p style="margin:2px 0"> <strong> {{CUSTOMER_first_name}} {{CUSTOMER_last_name}} <br> {{SHIPPING_address}} </p> </td>
         </tr>
         <tr>
          <td style="font-size:10px;color:#666;padding:0 10px 20px 10px;line-height:16px;width:640px" colspan="2"> <p style="margin:10px 0 0 0;font:11px/16px Arial,sans-serif;color:#333"> Your package is being shipped by Bigcommerce Transportation Services and the tracking number is 211150635008. Please note that a signature may be required for the delivery of the package. </p> </td>
@@ -48,21 +48,21 @@
      <td id="m_8521776616304418064m_5002842050371960406m_-8599834865730584034m_7783002159782884724shipmentDetails" style="padding:16px 40px;width:640px" colspan="2">
       <table width="565" cellspacing="0" cellpadding="0">
        <tbody>
-         %%ORDER_table%%
+         {{ORDER_table}}
         <tr>
          <td style="border-top:1px solid rgb(234,234,234);padding:0pt 0pt 16px;width:560px" colspan="3"> &nbsp; </td>
         </tr>
         <tr>
          <td valign="top" align="right" style="font:12px/18px Arial,sans-serif;padding:0 10px 0 0;color:#333;width:480px" colspan="2"> Item Subtotal: </td>
-         <td valign="top" align="right" style="font:12px/18px Arial,sans-serif;color:#333;width:85px"> %%ORDER_subtotal%% </td>
+         <td valign="top" align="right" style="font:12px/18px Arial,sans-serif;color:#333;width:85px"> {{ORDER_subtotal}} </td>
         </tr>
         <tr>
          <td valign="top" align="right" style="font:12px/18px Arial,sans-serif;padding:0 10px 0 0;color:#333;width:480px" colspan="2"> Shipping &amp; Handling: </td>
-         <td valign="top" align="right" style="font:12px/18px Arial,sans-serif;color:#333;width:85px"> %%ORDER_shipping_charge%% </td>
+         <td valign="top" align="right" style="font:12px/18px Arial,sans-serif;color:#333;width:85px"> {{ORDER_shipping_charge}} </td>
         </tr>
         <tr>
          <td valign="top" align="right" style="font:14px Arial,sans-serif;padding:10px 10px 10px 0;color:#333;width:480px" colspan="2"> Shipment Total: </td>
-         <td valign="top" align="right" style="color:#333;font:14px Arial,sans-serif;padding:10px 0 5px 0;color:#333;width:85px"> <strong> %%ORDER_total%% </strong> </td>
+         <td valign="top" align="right" style="color:#333;font:14px Arial,sans-serif;padding:10px 0 5px 0;color:#333;width:85px"> <strong> {{ORDER_total}} </strong> </td>
         </tr>
        </tbody>
       </table> </td>

@@ -4,7 +4,7 @@ class OmniauthsController < ApplicationController
     unless auth && auth[:extra][:raw_info][:context]
       return render_error("[install] Invalid credentials: #{JSON.pretty_generate(auth[:extra])}")
     end
-
+    app_url  = 'https://f62bd521.ngrok.io'
     email = auth[:info][:email]
     name = auth[:info][:name]
     store_hash = auth[:extra][:context].split('/')[1]
@@ -16,21 +16,24 @@ class OmniauthsController < ApplicationController
     if store
       logger.info "[install] Updating token for store '#{store_hash}' with scope '#{scope}'"
       store.update(access_token: token, scope: scope)
-
       connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
-      webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/order_created",  connection: connection  )
-      webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/shipment_created",  connection: connection  )
+      webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "#{app_url}/hooks/order_created",  connection: connection  )
+      webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "#{app_url}/hooks/shipment_created",  connection: connection  )
     else
       logger.info "[install] Installing app for store '#{store_hash}' with admin '#{email}'"
       store = Store.create(store_hash: store_hash, access_token: token, scope: scope, email: email, username: name)
       if store.present?
+        store.set_default_templates_and_activate
         connection = Bigcommerce::Connection.build(Bigcommerce::Config.new(store_hash: store.store_hash, client_id: ENV['BC_CLIENT_ID'], access_token: store.access_token))
-        webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/order_created",  connection: connection  )
-        webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "https://whispering-hamlet-38513.herokuapp.com/hooks/shipment_created",  connection: connection  )
+        webhook1 = Bigcommerce::Webhook.create( scope: 'store/order/created',  destination: "#{app_url}/hooks/order_created",  connection: connection  )
+        webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "#{app_url}/hooks/shipment_created",  connection: connection  )
       end
       session[:store_id] = store.id
     end
     render 'home/index', status: 200
+  end
+
+  def uninstall
   end
 
   def load
@@ -45,48 +48,6 @@ class OmniauthsController < ApplicationController
     return render_error("[load] Store not found!") unless @store
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
-  end
-
-  def fire_email
-    Mail.defaults do
-      delivery_method :smtp, {
-                    :delivery_method => :smtp,
-          :address   => "smtp.sendgrid.net",
-                                 :port      => 587,
-                               :domain    => "https://mysterious-citadel-27744.herokuapp.com/",
-                               :user_name => "#{ENV['SENDGRID_USERNAME']}",
-                               :password  => "#{ENV['SENDGRID_PASSWORD']}",
-                               :authentication => 'plain',
-                               :enable_starttls_auto => true }
-    end
-
-    @template = Template.last
-
-    vars = { "%%USERNAME%%" => 'Nishant Upadhyay', '%%ORDER_ID%%' => '12345' }
-
-    q_subject = @template.subject
-    vars.keys.each do |key|
-      q_subject = q_subject.gsub key, vars[key]
-    end
-
-    q_body = @template.body
-    vars.keys.each do |key|
-      q_body = q_body.gsub key, vars[key]
-    end
-
-    mail = Mail.deliver do
-      to 'nishantupadhyay@botreetechnologies.com'
-      from 'big.commercedemo123@gmail.com'
-      subject "Your Amazon.in order of ABC... and 2 more item(s)"
-      text_part do
-        body q_body.html_safe
-      end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body q_body.html_safe
-      end
-    end
-    redirect_to root_path
   end
 
   private
