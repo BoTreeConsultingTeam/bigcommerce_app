@@ -9,4 +9,4 @@
 # Set all the default available email types for triggring with the application.
 EmailType::DEFAULT_AVAILABLE.each{ |type| EmailType.find_or_create_by(:name => type) }
 
-Template.find_or_creat(subject: 'Notify  customer %%USERNAME%%', body: '<h1>Greetings, %USERNAME%</h1><p>Your order with id: %%ORDER_ID%% is dispatched</p><br></hr><p>Thanks team Botree</p>')
+Template.first_or_create(email_type_id: 1, subject: 'Notify  customer %%USERNAME%%', body: '<h1>Greetings, %USERNAME%</h1><p>Your order with id: %%ORDER_ID%% is dispatched</p><br></hr><p>Thanks team Botree</p>')
