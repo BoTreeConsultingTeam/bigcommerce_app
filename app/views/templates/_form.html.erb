@@ -37,6 +37,10 @@
         $('.summernote').summernote({
 				  placeholder: 'Write body here...'
 				});
+
+        // Onload set the default value to the template_body
+				$("#template_body").val($('.summernote').code());
+
 				// summernote.change
 				$('.note-editable').on('keyup', function() {
 				  $("#template_body").val($('.summernote').code());

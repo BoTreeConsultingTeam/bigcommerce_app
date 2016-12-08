@@ -175,17 +175,6 @@
 				</div>
 
 				<ul class="nav" id="side-menu">
-					<li>
-						<%= active_link_to "#", method: :get do %>
-						  <span class="nav-label">About</span>
-						<% end %>
-					</li>
-					<li>
-						<%= active_link_to "#", method: :get do %>
-						  <span class="nav-label">Download</span>
-						<% end %>
-					</li>
-
 					<%= active_link_to templates_path, method: :get, :wrap_tag => :li do %>
 					  <span class="nav-label">Template</span>
 					<% end %>
@@ -193,12 +182,6 @@
 					<%= active_link_to active_store_templates_path, method: :get, :wrap_tag => :li do %>
 					  <span class="nav-label">Active Store Templates</span>
 					<% end %>
-
-					<li>
-						<%= active_link_to "#", method: :get do %>
-						  <span class="nav-label">Contact</span>
-						<% end %>
-					</li>
 				</ul>
 			</div>
 		</aside>
