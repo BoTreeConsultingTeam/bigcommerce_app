@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
   end
 
   def current_store
-    @current_store = Store.last #Store.find(session[:store_id])
+    if params['producer'].present?
+      store_hash = params['producer'].split('/').last
+      @current_store = Store.find_by(store_hash: store_hash)
+      session[:store_id] = @current_store.id
+    else
+      @current_store = Store.find(session[:store_id])
+    end
+    @current_store
   end
 end
