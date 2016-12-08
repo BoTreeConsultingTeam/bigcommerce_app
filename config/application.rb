@@ -27,19 +27,18 @@ module DemoBigCommerce
     config.autoload_paths += %w(#{config.root}/app/models/ckeditor)
 
     config.action_mailer.delivery_method = :smtp
-      config.action_mailer.default_url_options = { host:'localhost', port: '3000' }
-      config.action_mailer.perform_deliveries = true
-      config.action_mailer.raise_delivery_errors = true
-      config.action_mailer.default :charset => "utf-8"
-      config.action_mailer.smtp_settings = {
-          :address => "smtp.gmail.com",
-          :port => 587,
-          :domain => 'localhost:3000',
-          :user_name => "#{ENV['DEMO_MAIL']}",
-          :password => "#{ENV['DEMO_PASSWORD']}",
-          :authentication => :plain,
-          :enable_starttls_auto => true
-      }
-
+    config.action_mailer.default_url_options = { host:'https://f62bd521.ngrok.io'}
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default :charset => "utf-8"
+    config.action_mailer.smtp_settings = {
+        :address => "smtp.sendgrid.net",
+        :port => 587,
+        :domain => 'https://f62bd521.ngrok.io/',
+        :user_name => "#{ENV['SENDGRID_USERNAME']}",
+        :password => "#{ENV['SENDGRID_PASSWORD']}",
+        :authentication => :plain,
+        :enable_starttls_auto => true
+    }
   end
 end
