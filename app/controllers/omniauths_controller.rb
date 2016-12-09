@@ -36,6 +36,11 @@ class OmniauthsController < ApplicationController
   end
 
   def uninstall
+    payload = parse_signed_payload
+    store = Store.find_by(store_hash: payload["store_hash"])
+    store.destroy if store.present?
+    Rails.logger.debug "Store Removed successfully"
+    render nothing: true, status: 200
   end
 
   def load

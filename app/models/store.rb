@@ -17,10 +17,9 @@ class Store < ActiveRecord::Base
   end
 
   def set_default_templates_and_activate
-    order_template = templates.create(:email_type_id => EmailType.find_by_name(EmailType::DEFAULT_AVAILABLE[0]).try(:id), :subject => Template::DEFAULT_TEMPLATES[EmailType::DEFAULT_AVAILABLE[0].to_sym][:subject], :body => Template::DEFAULT_TEMPLATES[EmailType::DEFAULT_AVAILABLE[0].to_sym][:body])
-    shipment_template = templates.create(:email_type_id => EmailType.find_by_name(EmailType::DEFAULT_AVAILABLE[1]).try(:id), :subject => Template::DEFAULT_TEMPLATES[EmailType::DEFAULT_AVAILABLE[1].to_sym][:subject], :body => Template::DEFAULT_TEMPLATES[EmailType::DEFAULT_AVAILABLE[1].to_sym][:body])
-    set_active_template({:email_type_id => order_template.email_type_id, :template_id => order_template.id})
-    set_active_template({:email_type_id => shipment_template.email_type_id, :template_id => shipment_template.id})
+    binding.pry
+    order_template = self.templates.find_or_create_by(::Template::DEFAULT_TEMPLATES[:order])
+    shipment_template = self.templates.find_or_create_by(::Template::DEFAULT_TEMPLATES[:shipment])
   end
 
   def active_order_created_event_template
