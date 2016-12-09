@@ -21,7 +21,9 @@
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Available Variables</label>
 					<div class="col-sm-10">
-						<%= select_tag 'template[variables]', options_for_select(::Template::AVAILABLE_TEMPLATE_VARIABLES), class: 'form-control select optional' %>
+						<div class="form-group">
+							<%= select_tag 'template[variables]', options_for_select(::Template::AVAILABLE_TEMPLATE_VARIABLES), class: 'form-control select optional' %>
+						</div>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Subject*</label>
@@ -53,6 +55,7 @@
 <script>
 $(document).ready(function(){
   BigCommerce.Template.NewTemplate();
+  BigCommerce.Template.InsertAtCaretPosition();
 	 $("#template_event_id option:selected").val();
 	$('#template_event_id').on('change', function(){
 		var event =	this.options[this.options.selectedIndex].value

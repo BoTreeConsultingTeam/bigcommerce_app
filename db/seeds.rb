@@ -7,9 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Set all the default available email types for triggring with the application.
-EmailType::DEFAULT_AVAILABLE.each{ |type| EmailType.find_or_create_by(:name => type) }
-names = ['order', 'shipment']
-names.each do |name|
+NAMES = ['order', 'shipment']
+NAMES.each do |name|
   Event.find_or_create_by(name: name)
 end
 

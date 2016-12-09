@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   get '/auth/:name/callback' => 'omniauths#callback'
   get '/load' => 'omniauths#load'
   get '/uninstall' => 'omniauths#uninstall'
-  mount Ckeditor::Engine => '/ckeditor'
   resource :omniauth
   get '/default_template' => 'home#default_template'
   get '/default_shipment_template' => 'home#default_shipment_template'
@@ -24,7 +23,6 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :templates
-  resources :active_store_templates, :only => [:new, :create, :index]
 
   # Bigcommerce Webhooks related routes
   resources :hooks do
