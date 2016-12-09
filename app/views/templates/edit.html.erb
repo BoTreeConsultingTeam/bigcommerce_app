@@ -1,9 +1,27 @@
-<div class="container" style="margin-top: 90px;">
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>Editing Template</h1>
-			<hr/>
-			<%= render 'form' %>
-	  </div>
+<div class="small-header transition animated fadeIn">
+	<div class="hpanel">
+		<div class="panel-body">
+			<div id="hbreadcrumb" class="pull-right">
+				<ol class="hbreadcrumb breadcrumb">
+					<li>
+						<a href="index.html">Dashboard</a>
+					</li>
+					<li>
+						<span>Templates</span>
+					</li>
+					<li class="active">
+						<span>Edit</span>
+					</li>
+				</ol>
+			</div>
+			<h2 class="font-light m-b-xs"> Edit Template </h2>
+			<small>Add new template for the store.</small>
+		</div>
+	</div>
+</div>
+
+<div class="content animate-panel">
+	<div>
+		<%= render 'form' %>
 	</div>
 </div>

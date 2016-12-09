@@ -109,12 +109,12 @@ class HooksController < ApplicationController
   def send_notification_email(email_to, email_from, email_subject, email_body)
     Mail.defaults do
       delivery_method :smtp, {
-                    :delivery_method => :smtp,
-        :address   => "smtp.sendgrid.net",
-                               :port      => 587,
-                             :domain    => "https://f62bd521.ngrok.io/",
-                             :user_name => "#{ENV['SENDGRID_USERNAME']}",
-                             :password  => "#{ENV['SENDGRID_PASSWORD']}",
+                    :delivery_method => current_store.smtp_detail.delivery_method.to_sym,
+        :address   => current_store.smtp_detail.address,
+                               :port      => current_store.smtp_detail.port,
+                             :domain    => current_store.smtp_detail.domain,
+                             :user_name => current_store.smtp_detail.username,
+                             :password  => current_store.smtp_detail.password,
                              :authentication => 'plain',
                              :enable_starttls_auto => true }
     end

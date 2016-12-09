@@ -1,6 +1,7 @@
 class Store < ActiveRecord::Base
   has_many :templates, dependent: :destroy
   has_many :active_store_templates, dependent: :destroy
+  has_one :smtp_detail, dependent: :destroy
 
   def set_active_template(param)
     active_store_templates.where(:email_type_id => param[:email_type_id]).destroy_all
