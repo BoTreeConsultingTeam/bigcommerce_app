@@ -57,7 +57,7 @@ class OmniauthsController < ApplicationController
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
     logo = Bigcommerce::StoreInfo.info(connection: connection)[:logo]
-    session[:store_logo] = logo.present? ? logo[:url] : 'assets/default_logo.png'
+    session[:store_logo] = logo.present? ? logo[:url] : '/assets/default_logo.png'
   end
 
   private

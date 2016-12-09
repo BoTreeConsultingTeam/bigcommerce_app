@@ -1,5 +1,5 @@
-names = ['order', 'shipment']
-names.each do |name|
+NAMES = ['order', 'shipment']
+NAMES.each do |name|
   Event.find_or_create_by(name: name)
 end
 
