@@ -26,7 +26,7 @@ class TemplatesController < ApplicationController
     @template = current_store.templates.build(template_params)
     respond_to do |format|
       if @template.save
-        format.html { redirect_to templates_url, notice: 'Template was successfully created.' }
+        format.html { redirect_to templates_url, success: 'Template was successfully created.' }
       else
         format.html { render :new }
       end
@@ -37,7 +37,7 @@ class TemplatesController < ApplicationController
   def update
     respond_to do |format|
       if @template.update(template_params)
-        format.html { redirect_to templates_url, notice: 'Template was successfully updated.' }
+        format.html { redirect_to templates_url, success: 'Template was successfully updated.' }
       else
         format.html { render :edit }
       end
@@ -67,8 +67,8 @@ class TemplatesController < ApplicationController
   def toggle_active
     template = Template.find(params[:id])
     unless template.active?
-      current_active_template = Template.find_by(active: true)
-      current_active_template.update_attributes(active: false)
+      current_active_template = Template.find_by(active: true, event_type_id: template.event_type_id, event_id: template.event_id)
+      current_active_template.update_attributes(active: false) if current_active_template.present?
       template.update_attributes(active: true)
       flash[:success] = "Active Template changed successfully"
     else
