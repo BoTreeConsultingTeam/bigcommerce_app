@@ -5,8 +5,8 @@
 				<%= simple_form_for(@template, html: {class: 'form-horizontal'}) do |f| %>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Name</label>
-					<div class="col-sm-10">
-						<%= f.text_field :name, class: 'form-control' %>
+					<div class="col-sm-10 form-group">
+						<%= f.text_field :name, class: 'form-control form_group' %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event*</label>
@@ -17,6 +17,11 @@
 					<label class="col-sm-2 control-label">Event Type*</label>
 					<div class="col-sm-10" id="event-type-list">
 						<%= render partial: 'templates/event_types', locals: { event: Event.first }%>
+					</div>
+					<div class="clearfix"></div>
+					<label class="col-sm-2 control-label">Available Variables</label>
+					<div class="col-sm-10">
+						<%= select_tag 'template[variables]', options_for_select(::Template::AVAILABLE_TEMPLATE_VARIABLES), class: 'form-control select optional' %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Subject*</label>
