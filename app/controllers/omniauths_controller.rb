@@ -51,7 +51,6 @@ class OmniauthsController < ApplicationController
     return render_error("[load] Store not found!") unless @store
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
-    binding.pry
     logo = Bigcommerce::StoreInfo.info(connection: connection)[:logo]
     session[:store_logo] = logo.present? ? logo[:url] : 'assets/default_logo.png'
   end

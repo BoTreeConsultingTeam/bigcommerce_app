@@ -14,9 +14,9 @@
 		<div class="splash">
 			<div class="color-line"></div>
 			<div class="splash-title">
-				<h1>Homer - Responsive Admin Theme</h1>
+				<h1>My App</h1>
 				<p>
-					Special Admin Theme for small and medium webapp with very clean and aesthetic style and feel.
+					Demo App for Big Commerce
 				</p>
 				<div class="spinner">
 					<div class="rect1"></div>
@@ -41,25 +41,7 @@
 					<i class="fa fa-bars"></i>
 				</div>
 				<div class="small-logo">
-					<span class="text-primary">HOMER APP</span>
-				</div>
-				<div class="mobile-menu">
-					<button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
-						<i class="fa fa-chevron-down"></i>
-					</button>
-					<div class="collapse mobile-navbar" id="mobile-collapse">
-						<ul class="nav navbar-nav">
-							<li>
-								<a class="" href="#">Login</a>
-							</li>
-							<li>
-								<a class="" href="#">Logout</a>
-							</li>
-							<li>
-								<a class="" href="#">Profile</a>
-							</li>
-						</ul>
-					</div>
+					<span class="text-primary">My APP</span>
 				</div>
 			</nav>
 		</div>
@@ -67,16 +49,16 @@
 		<aside id="menu">
 			<div id="navigation">
 				<div class="profile-picture">
-					<a href="#"> <img src="/assets/profile.jpg" class="img-circle m-b" alt="logo"> </a>
+					<a href="#"> <img src="<%= session[:store_logo] %>" class="img-circle m-b custom-img-style" alt="logo"> </a>
 
 					<div class="stats-label text-color">
-						<span class="font-extra-bold font-uppercase"><%= current_store.username%></span>
+						<span class="font-extra-bold font-uppercase" title="<%= current_store.username %>"><%= truncate(current_store.username, length: 20)%></span>
 					</div>
 				</div>
 
 				<ul class="nav" id="side-menu">
 					<%= active_link_to templates_path, method: :get, :wrap_tag => :li do %>
-					<span class="nav-label">Template</span>
+					<span class="nav-label">Templates</span>
 					<% end %>
 				</ul>
 			</div>

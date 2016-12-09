@@ -23,3 +23,8 @@
 .disabled{
   color: #C0C0C0 !important
 }
+
+.custom-img-style{
+  height: 80px !important;
+  width: 80px !important
+}
