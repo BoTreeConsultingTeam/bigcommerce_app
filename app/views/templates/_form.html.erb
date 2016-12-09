@@ -80,4 +80,23 @@ $(document).ready(function(){
 	});
 
 });
+
+$(function(){
+	$("#new_template").validate({
+	    rules: {
+	        name: {
+	            required: true
+	        },
+	        event_type_id: {
+	        	required: true
+	        },
+	        body: {
+	        	required: true
+	        }
+	    },
+	    submitHandler: function(form) {
+	        form.submit();
+	    }
+	});
+});
 </script>

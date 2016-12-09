@@ -29,5 +29,6 @@
 //= require metisMenu.min
 //= require icheck.min
 //= require summernote.min
+//= require jquery.validate.min
 //= require big-commerce
 
