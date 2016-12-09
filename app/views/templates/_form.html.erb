@@ -70,7 +70,6 @@ $(document).ready(function(){
 	$("#template_event_type_id").on('change', function() {
 		var selected = $("#template_event_type_id option:selected").text();
 		if ($("#template_event_type_id option:selected").text() == 'order created') {
-			console.log('order created>>>>>>>>>>>>')
 			$('#summernote').code($("#default-template-body-order").html());
 		} else {
 			$('#summernote').code($("#default-template-body-shipment").html());
