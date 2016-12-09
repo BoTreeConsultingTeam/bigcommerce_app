@@ -16,7 +16,6 @@ class Store < ActiveRecord::Base
   end
 
   def set_default_templates_and_activate
-    binding.pry
     order_template = self.templates.find_or_create_by(::Template::DEFAULT_TEMPLATES[:order])
     shipment_template = self.templates.find_or_create_by(::Template::DEFAULT_TEMPLATES[:shipment])
   end

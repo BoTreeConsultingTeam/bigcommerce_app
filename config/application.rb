@@ -22,10 +22,6 @@ module DemoBigCommerce
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    config.assets.precompile += Ckeditor.assets
-    config.assets.precompile += %w( ckeditor/* )
-    config.autoload_paths += %w(#{config.root}/app/models/ckeditor)
-
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.default_url_options = { host:'https://f62bd521.ngrok.io'}
     config.action_mailer.perform_deliveries = true
