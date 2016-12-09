@@ -4,7 +4,7 @@ class OmniauthsController < ApplicationController
     unless auth && auth[:extra][:raw_info][:context]
       return render_error("[install] Invalid credentials: #{JSON.pretty_generate(auth[:extra])}")
     end
-    app_url  = 'https://f62bd521.ngrok.io'
+    app_url  = 'https://b50f6a6e.ngrok.io'
     email = auth[:info][:email]
     name = auth[:info][:name]
     store_hash = auth[:extra][:context].split('/')[1]
@@ -29,8 +29,8 @@ class OmniauthsController < ApplicationController
         webhook2 = Bigcommerce::Webhook.create( scope: 'store/shipment/created',  destination: "#{app_url}/hooks/shipment_created",  connection: connection  )
       end
       session[:store_id] = store.id
-      logo = Bigcommerce::StoreInfo.info(connection: connection)['logo']
-      session[:store_logo] = logo.present? ? logo['url'] : 'assets/default_logo.png'
+      logo = Bigcommerce::StoreInfo.info(connection: connection)[:logo]
+      session[:store_logo] = logo.present? ? logo[:url] : 'assets/default_logo.png'
     end
     render 'home/index', status: 200
   end
@@ -51,8 +51,9 @@ class OmniauthsController < ApplicationController
     return render_error("[load] Store not found!") unless @store
     logger.info "[load] Loading app for user '#{email}' on store '#{store_hash}'"
     session[:store_id] = @store.id
-    logo = Bigcommerce::StoreInfo.info(connection: connection)['logo']
-    session[:store_logo] = logo.present? ? logo['url'] : 'assets/default_logo.png'
+    binding.pry
+    logo = Bigcommerce::StoreInfo.info(connection: connection)[:logo]
+    session[:store_logo] = logo.present? ? logo[:url] : 'assets/default_logo.png'
   end
 
   private

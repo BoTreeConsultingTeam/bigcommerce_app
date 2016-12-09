@@ -57,7 +57,7 @@
 												  <i class="pe-7s-look"></i>
 												<% end %>
 												<%= link_to toggle_active_path(template.id), method: :get, style: 'font-size: 25px;' do %>
-													<% sym = template.active? ? "fa-check disabled" : "fa-check disabled" %>
+													<% sym = template.active? ? "fa-check" : "fa-check disabled" %>
 													<i class="fa <%= sym %>" ></i>
 												<% end %>
 											</td>
