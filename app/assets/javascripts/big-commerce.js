@@ -9,15 +9,26 @@ BigCommerce.Template = {
 			});
 
 			// Onload set the default value to the template_body
-			$("#template_body").val($('.summernote').code());
+			$("#template_body").val($('#summernote').code());
+
+			var selected = $("#template_event_type_id option:selected").text();
+			console.log(selected)
+			if ($(selected && "#template_event_type_id option:selected").text() == 'order created') {
+				$('#summernote').code($("#default-template-body-order").html());
+			} else if($(selected && "#template_event_type_id option:selected").text() == 'shipment created') {
+				$('#summernote').code($("#default-template-body-shipment").html());
+				$("#template_body").val($('#summernote').code())
+			}else{
+				$('#summernote').code("<p>Default template will be displayed soon once you select event and event type</p>")
+			}
 
 			// summernote.change
 			$('.note-editable').on('keyup', function() {
 				$("#template_body").val($('#summernote').code());
 			});
 			$("#template_email_type_id").on('change', function() {
-				var selected = $("#template_email_type_id option:selected").text();
-				if ($("#template_email_type_id option:selected").text() == 'order') {
+				var selected = $("#template_event_type_id option:selected").text();
+				if ($("#template_event_type_id option:selected").text() == 'order') {
 					$('#summernote').code($("#default-template-body-order").html());
 				} else {
 					$('#summernote').code($("#default-template-body-shipment").html());

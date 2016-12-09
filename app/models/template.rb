@@ -1,7 +1,6 @@
 class Template < ActiveRecord::Base
   belongs_to :stroe
   belongs_to :email_type
-  has_many :active_store_templates, dependent: :destroy
   belongs_to :event
   belongs_to :event_type
   validates :subject, :body, :event_id, :event_type_id, :name,  presence: true

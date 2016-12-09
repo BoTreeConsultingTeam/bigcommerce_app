@@ -19,6 +19,8 @@ class TemplatesController < ApplicationController
 
   # GET /templates/1/edit
   def edit
+    @event_type = @template.event_type
+    @event = @template.event
   end
 
   # POST /templates
@@ -35,6 +37,7 @@ class TemplatesController < ApplicationController
 
   # PATCH/PUT /templates/1
   def update
+    binding.pry
     respond_to do |format|
       if @template.update(template_params)
         format.html { redirect_to templates_url, success: 'Template was successfully updated.' }
@@ -59,6 +62,12 @@ class TemplatesController < ApplicationController
   def list_event_types
     @event = Event.find(params[:event])
     @event_types = @event.event_types if @event
+    template = Template.find(params[:template_id]) if  params[:template_id].present?
+    if template.present?
+      @event_type = template.event_type
+    else
+      @event_type = EventType.first
+    end
     respond_to do |format|
       format.js
     end

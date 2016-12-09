@@ -11,12 +11,14 @@
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event*</label>
 					<div class="col-sm-10">
-						<%= f.input :event_id, collection: Event.pluck(:name, :id), include_blank: false, label: false, id: 'event_select', class: 'form-control', required: true %>
+						<%= f.input :event_id, collection: Event.pluck(:name, :id), include_blank: 'Select Event', label: false, id: 'event_select', class: 'form-control', required: true %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event Type*</label>
 					<div class="col-sm-10" id="event-type-list">
-						<%= render partial: 'templates/event_types', locals: { event: Event.first }%>
+						<% event = @template.present? ? @template.event : Event.first %>
+						<% event_type = @template.present? ? @event_type : EventType.first %>
+						<%= render partial: 'templates/event_types', locals: { event: event, event_type: event_type }%>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Available Variables</label>
@@ -66,7 +68,7 @@ $(document).ready(function(){
 		var event =	this.options[this.options.selectedIndex].value
 		$.ajax({
   		url: "/event_types/list",
-  		data: { event: event }
+  		data: { event: event, template_id: "<%= @template.id %>" }
 		})
 	});
 
