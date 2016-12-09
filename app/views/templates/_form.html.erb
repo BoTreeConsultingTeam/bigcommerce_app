@@ -6,12 +6,12 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Name</label>
 					<div class="col-sm-10 form-group">
-						<%= f.text_field :name, class: 'form-control form_group' %>
+						<%= f.text_field :name, required: true, class: 'form-control form_group' %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event*</label>
 					<div class="col-sm-10">
-						<%= f.input :event_id, collection: Event.pluck(:name, :id), include_blank: false, label: false, id: 'event_select' %>
+						<%= f.input :event_id, collection: Event.pluck(:name, :id), include_blank: false, label: false, id: 'event_select', class: 'form-control', required: true %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event Type*</label>

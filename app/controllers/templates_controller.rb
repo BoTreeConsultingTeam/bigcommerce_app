@@ -46,9 +46,13 @@ class TemplatesController < ApplicationController
 
   # DELETE /templates/1
   def destroy
-    @template.destroy
-    respond_to do |format|
-      format.html { redirect_to templates_url, notice: 'Template was successfully destroyed.' }
+    if @template.destroy
+      respond_to do |format|
+        format.html { redirect_to templates_url, success: 'Template was successfully destroyed.' }
+      end
+    else
+      flash[:error] = @template.errors.full_messages
+      redirect_to templates_path
     end
   end
 
@@ -66,6 +70,9 @@ class TemplatesController < ApplicationController
       current_active_template = Template.find_by(active: true)
       current_active_template.update_attributes(active: false)
       template.update_attributes(active: true)
+      flash[:success] = "Active Template changed successfully"
+    else
+      flash[:danger] = "Unable to deactivate this template."
     end
     @templates = current_store.templates.page(params[:page])
     redirect_to templates_path
