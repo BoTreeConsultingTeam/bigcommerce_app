@@ -34,22 +34,19 @@ BigCommerce.Template = {
 	  });
 
 	  function insertTextAtCursor(text) {
-	    var sel, range, html;
-	    if (window.getSelection) {
-	        sel = window.getSelection();
-	        if (sel.getRangeAt && sel.rangeCount) {
-	        	  console.log("inside if");
-	            range = sel.getRangeAt(0);
-	            range.deleteContents();
-	            element_class = $(range.startContainer.parentElement).closest('div[data-gramm_editor="true"]').attr('class');
-	            console.log(element_class);
-	            if (element_class == 'note-editable'){
-	            	range.insertNode( document.createTextNode(text) );
-	            }
-	        }
-	    } else if (document.selection && document.selection.createRange) {
-	        document.selection.createRange().text = text;
-	    }
+    var sel, range, html;
+		    if (document.getSelection) {
+		        sel = document.getSelection();
+		        if (sel.getRangeAt && sel.rangeCount) {
+		        	  debugger;
+		            range = sel.getRangeAt(0);
+		            range.deleteContents();
+		            element_class = $(range.startContainer.parentElement).closest('div[data-gramm_editor="true"]').attr('class');
+		            range.insertNode( document.createTextNode(text) );
+		        }
+		    } else if (document.selection && document.selection.createRange) {
+		        document.selection.createRange().text = text;
+		    }
 		}
 	},
 
