@@ -107,16 +107,22 @@ class HooksController < ApplicationController
   end
 
   def send_notification_email(email_to, email_from, email_subject, email_body)
+    smtp_details = current_store.smtp_detail
+    delivery = smtp_details.delivery_method.to_sym
+    address = smtp_details.address
+    port = smtp_details.port
+    domain = smtp_details.domain
+    username = smtp_details.username
+    password = smtp_details.password
     Mail.defaults do
-      delivery_method :smtp, {
-                    :delivery_method => current_store.smtp_detail.delivery_method.to_sym,
-        :address   => current_store.smtp_detail.address,
-                               :port      => current_store.smtp_detail.port,
-                             :domain    => current_store.smtp_detail.domain,
-                             :user_name => current_store.smtp_detail.username,
-                             :password  => current_store.smtp_detail.password,
-                             :authentication => 'plain',
-                             :enable_starttls_auto => true }
+       delivery_method :smtp, { :delivery_method => delivery,
+                                :address   => address,
+                                :port => port,
+                                :domain => domain,
+                                :user_name => username ,
+                                :password  => password,
+                                :authentication => 'plain',
+                                :enable_starttls_auto => true }
     end
 
     mail = Mail.deliver do
