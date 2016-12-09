@@ -55,6 +55,14 @@
 												<%= link_to template, method: :get, style: 'font-size: 25px;' do %>
 												  <i class="pe-7s-look"></i>
 												<% end %>
+												<% unless template.active? %>
+													<%= link_to template_path(template), method: :delete, style: 'font-size: 25px;' do %>
+													  <i class="fa fa-trash"></i>
+													<% end %>
+												<% end %>
+												<%= link_to edit_template_path(template), method: :get, style: 'font-size: 25px;' do %>
+													<i class="fa fa-pencil-square-o"></i>
+												<% end %>
 												<%= link_to toggle_active_path(template.id), method: :get, style: 'font-size: 25px;' do %>
 													<% sym = template.active? ? "fa-check" : "fa-check disabled" %>
 													<i class="fa <%= sym %>" ></i>
@@ -86,4 +94,3 @@
 		</div>
 	</div>
 </div>
-

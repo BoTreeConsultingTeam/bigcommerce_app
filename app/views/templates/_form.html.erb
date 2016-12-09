@@ -6,12 +6,12 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Name</label>
 					<div class="col-sm-10 form-group">
-						<%= f.text_field :name, class: 'form-control form_group' %>
+						<%= f.text_field :name, required: true, class: 'form-control form_group' %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event*</label>
 					<div class="col-sm-10">
-						<%= f.input :event_id, collection: Event.pluck(:name, :id), include_blank: false, label: false, id: 'event_select' %>
+						<%= f.input :event_id, collection: Event.pluck(:name, :id), include_blank: false, label: false, id: 'event_select', class: 'form-control', required: true %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event Type*</label>
@@ -58,11 +58,26 @@ $(document).ready(function(){
   BigCommerce.Template.InsertAtCaretPosition();
 	 $("#template_event_id option:selected").val();
 	$('#template_event_id').on('change', function(){
+		if ($("#template_event_type_id option:selected").text() != 'order created') {
+			$('#summernote').code($("#default-template-body-order").html());
+		} else {
+			$('#summernote').code($("#default-template-body-shipment").html());
+		}
 		var event =	this.options[this.options.selectedIndex].value
 		$.ajax({
   		url: "/event_types/list",
   		data: { event: event }
 		})
 	});
+
+	$("#template_event_type_id").on('change', function() {
+		var selected = $("#template_event_type_id option:selected").text();
+		if ($("#template_event_type_id option:selected").text() == 'order created') {
+			$('#summernote').code($("#default-template-body-order").html());
+		} else {
+			$('#summernote').code($("#default-template-body-shipment").html());
+		}
+	});
+
 });
 </script>
