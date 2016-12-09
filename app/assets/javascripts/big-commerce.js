@@ -13,9 +13,9 @@ BigCommerce.Template = {
 
 			var selected = $("#template_event_type_id option:selected").text();
 			console.log(selected)
-			if ($(selected && "#template_event_type_id option:selected").text() == 'order created') {
+			if ($(selected && $("#template_event_id option:selected").text() == 'order' && "#template_event_type_id option:selected").text() == 'order created') {
 				$('#summernote').code($("#default-template-body-order").html());
-			} else if($(selected && "#template_event_type_id option:selected").text() == 'shipment created') {
+			} else if($(selected && $("#template_event_id option:selected").text() == 'shipment' && "#template_event_type_id option:selected").text() == 'shipment created') {
 				$('#summernote').code($("#default-template-body-shipment").html());
 				$("#template_body").val($('#summernote').code())
 			}else{
@@ -26,12 +26,18 @@ BigCommerce.Template = {
 			$('.note-editable').on('keyup', function() {
 				$("#template_body").val($('#summernote').code());
 			});
-			$("#template_email_type_id").on('change', function() {
+			$("#template_event_type_id").on('change', function() {
 				var selected = $("#template_event_type_id option:selected").text();
-				if ($("#template_event_type_id option:selected").text() == 'order') {
+				console.log(selected)
+				if (selected && $("#template_event_id option:selected").text() == 'order' && $("#template_event_type_id option:selected").text() == 'order created') {
 					$('#summernote').code($("#default-template-body-order").html());
-				} else {
+					$("#template_body").val($('#summernote').code())
+				} else if( selected && $("#template_event_id option:selected").text() == 'shipment' && $("#template_event_type_id option:selected").text() == 'shipment created'){
 					$('#summernote').code($("#default-template-body-shipment").html());
+					$("#template_body").val($('#summernote').code())
+				}else{
+					$('#summernote').code("<p>Default template will be displayed soon once you select event and event type</p>");
+					$("#template_body").val($('#summernote').code())
 				}
 			});
 		});
