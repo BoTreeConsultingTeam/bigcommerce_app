@@ -1,5 +1,5 @@
 <% event_types = event.present? ? event.event_types : [] %>
 
 <div class="form-group">
-  <%= select_tag 'template[event_type_id]', options_from_collection_for_select(event_types, "id", "name", event_type), include_blank: false, class: 'form-control select optional' %>
+  <%= select_tag 'template[event_type_id]', options_from_collection_for_select(event_types, "id", "name", event_type), class: 'form-control select optional' %>
 </div>
