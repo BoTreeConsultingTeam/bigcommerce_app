@@ -55,11 +55,27 @@ $(document).ready(function(){
   BigCommerce.Template.NewTemplate();
 	 $("#template_event_id option:selected").val();
 	$('#template_event_id').on('change', function(){
+		if ($("#template_event_type_id option:selected").text() != 'order created') {
+			$('#summernote').code($("#default-template-body-order").html());
+		} else {
+			$('#summernote').code($("#default-template-body-shipment").html());
+		}
 		var event =	this.options[this.options.selectedIndex].value
 		$.ajax({
   		url: "/event_types/list",
   		data: { event: event }
 		})
 	});
+
+	$("#template_event_type_id").on('change', function() {
+		var selected = $("#template_event_type_id option:selected").text();
+		if ($("#template_event_type_id option:selected").text() == 'order created') {
+			console.log('order created>>>>>>>>>>>>')
+			$('#summernote').code($("#default-template-body-order").html());
+		} else {
+			$('#summernote').code($("#default-template-body-shipment").html());
+		}
+	});
+
 });
 </script>
