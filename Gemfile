@@ -37,10 +37,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Simple Form aims to be as flexible as possible while helping you with powerful components to create your forms.
 gem 'simple_form'
-# Easy file attachment management for ActiveRecord
-gem "paperclip", "~> 5.0.0"
-# CKEditor is a WYSIWYG text editor designed to simplify web content creation
-gem 'ckeditor'
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern web app frameworks and ORMs
 gem 'kaminari'
 # Creates a link tag of the given name using a URL created by the set of options.
