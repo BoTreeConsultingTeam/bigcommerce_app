@@ -11,13 +11,13 @@
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event*</label>
 					<div class="col-sm-10">
-						<%= f.input :event_id, collection: Event.pluck(:name, :id), label: false, id: 'event_select', class: 'form-control', required: true %>
+						<%= f.input :event_id, collection: Event.pluck(:name, :id), label: false, id: 'event_select', class: 'form-control', include_blank: false%>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event Type*</label>
 					<div class="col-sm-10" id="event-type-list">
-						<% event = @template.present? ? @template.event : Event.first %>
-						<% event_type = @template.present? ? @event_type : EventType.first %>
+						<% event = @template.new_record? ? Event.first : @template.event %>
+						<% event_type = @template.new_record? ? EventType.first : @event_type%>
 						<%= render partial: 'templates/event_types', locals: { event: event, event_type: event_type }%>
 					</div>
 					<div class="clearfix"></div>
