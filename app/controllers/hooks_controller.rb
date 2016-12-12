@@ -51,7 +51,7 @@ class HooksController < ApplicationController
       q_subject.html_safe,
       q_body.html_safe
     )
-    render nothing: true, status: 200
+    render nothing: true
   end
 
   private

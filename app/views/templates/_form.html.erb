@@ -36,7 +36,7 @@
 					<label class="col-sm-2 control-label">Body*</label>
 					<div class="col-sm-10">
 						<div class="form-group">
-							<div id="summernote"><%= ::Template::DEFAULT_TEMPLATES[:order][:body].html_safe%></div>
+							<div id="summernote"><%= @template.body.html_safe if @template.body.present? %></div>
 						</div>
 						<%= f.input :body, as: :hidden, label: false, required:false %>
 					  <div class="has-error"><%= f.error :body%></div>
@@ -53,10 +53,18 @@
 		</div>
 	</div>
 </div>
+<% if @template.body.present? %>
+<div id="default-template-body-order" style="display: none;"><%= @template.body.html_safe%></div>
+<div id="default-template-body-shipment" style="display: none;"><%= @template.body.html_safe%></div>
+<% else %>
 <div id="default-template-body-order" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:order][:body].html_safe%></div>
 <div id="default-template-body-shipment" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:shipment][:body].html_safe%></div>
+<% end %>
 <script>
 $(document).ready(function(){
+	$('.note-editable').on('keyup', function() {
+		$("#template_body").val($('#summernote').code());
+	});
   BigCommerce.Template.NewTemplate();
   BigCommerce.Template.InsertAtCaretPosition();
 	 $("#template_event_id option:selected").val();
