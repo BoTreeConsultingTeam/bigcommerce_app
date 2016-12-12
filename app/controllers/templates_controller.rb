@@ -30,6 +30,7 @@ class TemplatesController < ApplicationController
       if @template.save
         format.html { redirect_to templates_path, success: 'Template was successfully created.' }
       else
+        flash.now[:danger] = @template.errors.full_messages
         format.html { render :new }
       end
     end
@@ -41,6 +42,7 @@ class TemplatesController < ApplicationController
       if @template.update(template_params)
         format.html { redirect_to templates_path, success: 'Template was successfully updated.' }
       else
+        flash.now[:danger] = @template.errors.full_messages
         format.html { render :edit }
       end
     end
@@ -53,7 +55,7 @@ class TemplatesController < ApplicationController
         format.html { redirect_to templates_path, success: 'Template was successfully destroyed.' }
       end
     else
-      flash[:error] = @template.errors.full_messages
+      flash.now[:danger] = @template.errors.full_messages
       redirect_to templates_path
     end
   end

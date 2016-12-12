@@ -24,7 +24,7 @@ class HooksController < ApplicationController
       q_subject.html_safe,
       q_body.html_safe
     )
-    render nothing: true, status: 200
+    render nothing: true, status: 201
   end
 
   def shipment_created
@@ -51,7 +51,7 @@ class HooksController < ApplicationController
       q_subject.html_safe,
       q_body.html_safe
     )
-    render nothing: true
+    render nothing: true, status: 201
   end
 
   private
@@ -59,7 +59,7 @@ class HooksController < ApplicationController
   def prepare_variable_hash(order_id, connection)
     order = Bigcommerce::Order.find(order_id, connection: connection)
     order = OpenStruct.new(order) if order
-    order_products = Bigcommerce::OrderProduct.all(order_id, connection: connection)
+  order_products = Bigcommerce::OrderProduct.all(order_id, connection: connection)
     prepare_order_products = []
     if order_products
       order_products.each do |product|
@@ -108,34 +108,35 @@ class HooksController < ApplicationController
 
   def send_notification_email(email_to, email_from, email_subject, email_body)
     smtp_details = current_store.smtp_detail
-    delivery = smtp_details.delivery_method.to_sym
-    address = smtp_details.address
-    port = smtp_details.port
-    domain = smtp_details.domain
-    username = smtp_details.username
-    password = smtp_details.password
-    Mail.defaults do
-       delivery_method :smtp, { :delivery_method => delivery,
-                                :address   => address,
-                                :port => port,
-                                :domain => domain,
-                                :user_name => username ,
-                                :password  => password,
-                                :authentication => 'plain',
-                                :enable_starttls_auto => true }
-    end
+    if smtp_details.present?
+      delivery = smtp_details.delivery_method.to_sym
+      address = smtp_details.address
+      port = smtp_details.port
+      domain = smtp_details.domain
+      username = smtp_details.username
+      password = smtp_details.password
+      Mail.defaults do
+         delivery_method :smtp, { :delivery_method => delivery,
+                                  :address   => address,
+                                  :port => port,
+                                  :domain => domain,
+                                  :user_name => username ,
+                                  :password  => password,
+                                  :authentication => 'plain',
+                                  :enable_starttls_auto => true }
+      end
 
-    mail = Mail.deliver do
-      to email_to
-      from email_from
-      subject email_subject.html_safe
-      text_part do
-        body email_body
+      mail = Mail.deliver do
+        to email_to
+        from email_from
+        subject email_subject.html_safe
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body email_body
+        end
       end
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body email_body
-      end
+    else
+      Rails.logger.error "ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Unable to find Smtp details of this store"
     end
   end
 

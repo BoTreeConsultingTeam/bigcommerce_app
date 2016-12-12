@@ -4,17 +4,17 @@
 			<div class="panel-body">
 				<%= simple_form_for(@template, html: {class: 'form-horizontal'}) do |f| %>
 				<div class="form-group">
-					<label class="col-sm-2 control-label">Name*</label>
+					<label class="col-sm-2 control-label">Name<span class="required-field">*</span></label>
 					<div class="col-sm-10">
 						<%= f.input :name, required: true, label: false %>
 					</div>
 					<div class="clearfix"></div>
-					<label class="col-sm-2 control-label">Event*</label>
+					<label class="col-sm-2 control-label">Event<span class="required-field">*</span></label>
 					<div class="col-sm-10">
 						<%= f.input :event_id, collection: Event.pluck(:name, :id), label: false, id: 'event_select', class: 'form-control', include_blank: false%>
 					</div>
 					<div class="clearfix"></div>
-					<label class="col-sm-2 control-label">Event Type*</label>
+					<label class="col-sm-2 control-label">Event Type<span class="required-field">*</span></label>
 					<div class="col-sm-10" id="event-type-list">
 						<% event = @template.new_record? ? Event.first : @template.event %>
 						<% event_type = @template.new_record? ? EventType.first : @event_type%>
@@ -28,18 +28,17 @@
 						</div>
 					</div>
 					<div class="clearfix"></div>
-					<label class="col-sm-2 control-label">Subject*</label>
+					<label class="col-sm-2 control-label">Subject<span class="required-field">*</span></label>
 					<div class="col-sm-10">
 						<%= f.input :subject, label: false, placeholder: "Write the subject here..."%>
 					</div>
 					<div class="clearfix"></div>
-					<label class="col-sm-2 control-label">Body*</label>
+					<label class="col-sm-2 control-label">Body<span class="required-field">*</span></label>
 					<div class="col-sm-10">
 						<div class="form-group">
 							<div id="summernote"><%= @template.body.html_safe if @template.body.present? %></div>
 						</div>
 						<%= f.input :body, as: :hidden, label: false, required:false %>
-					  <div class="has-error"><%= f.error :body%></div>
 					</div>
 				</div>
           <div class="clearfix"></div>

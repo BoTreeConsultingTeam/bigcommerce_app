@@ -29,7 +29,7 @@ class Template < ActiveRecord::Base
   def variable_used_in_email_body
     body_variables = body.scan(/(?<={{)[^{{]*(?=}})/).uniq
     unless body_variables.empty?
-      errors.add(:body, "Sorry!!! You are using some wrong variables.......") if ((body_variables & ALL_VARIABLES) != body_variables)
+      errors.add(:base, "Please check your template body. There are some wrong variables found.") if ((body_variables & ALL_VARIABLES) != body_variables)
     end
   end
 
