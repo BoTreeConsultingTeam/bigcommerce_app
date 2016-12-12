@@ -28,3 +28,8 @@
   height: 80px !important;
   width: 80px !important
 }
+
+.form-horizontal .form-action {
+  margin-right: -15px;
+  margin-left: -25px;
+}
