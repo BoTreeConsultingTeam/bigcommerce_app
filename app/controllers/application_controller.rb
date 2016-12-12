@@ -22,4 +22,5 @@ class ApplicationController < ActionController::Base
     end
     @current_store
   end
+
 end

@@ -38,7 +38,8 @@
 						<div class="form-group">
 							<div id="summernote"><%= ::Template::DEFAULT_TEMPLATES[:order][:body].html_safe%></div>
 						</div>
-						<%= f.input :body, as: :hidden, label: false %>
+						<%= f.input :body, as: :hidden, label: false, required:false %>
+					  <div class="has-error"><%= f.error :body%></div>
 					</div>
 				</div>
 				<div class="form-group">
