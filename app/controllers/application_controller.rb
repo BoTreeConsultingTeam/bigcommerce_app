@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   # require to remove X-Frame-Options to load Rails app in iframe on Bigcommerce
   def set_header_for_iframe
     response.headers.delete "X-Frame-Options"
+    response.headers["X-XSS-Protection"] = '0'
   end
 
   def current_store
@@ -18,9 +19,8 @@ class ApplicationController < ActionController::Base
       @current_store = Store.find_by(store_hash: store_hash)
       session[:store_id] = @current_store.id
     else
-      @current_store = Store.last #Store.find(session[:store_id])
+      @current_store = Store.find(session[:store_id])
     end
     @current_store
   end
-
 end

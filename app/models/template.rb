@@ -27,9 +27,9 @@ class Template < ActiveRecord::Base
        'order_total' ]
 
   def variable_used_in_email_body
-    invalid_variables = body.scan(/(?<={{)[^{{]*(?=}})/)
-    unless invalid_variables.empty?
-      errors.add(:body, "Sorry!!! You are using some wrong variables.......") if ((invalid_variables & ALL_VARIABLES) != invalid_variables)
+    body_variables = body.scan(/(?<={{)[^{{]*(?=}})/).uniq
+    unless body_variables.empty?
+      errors.add(:body, "Sorry!!! You are using some wrong variables.......") if ((body_variables & ALL_VARIABLES) != body_variables)
     end
   end
 

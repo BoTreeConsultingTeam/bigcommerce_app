@@ -28,7 +28,7 @@ class TemplatesController < ApplicationController
     @template = current_store.templates.build(template_params)
     respond_to do |format|
       if @template.save
-        format.html { redirect_to templates_url, success: 'Template was successfully created.' }
+        format.html { redirect_to templates_path, success: 'Template was successfully created.' }
       else
         format.html { render :new }
       end
@@ -39,7 +39,7 @@ class TemplatesController < ApplicationController
   def update
     respond_to do |format|
       if @template.update(template_params)
-        format.html { redirect_to templates_url, success: 'Template was successfully updated.' }
+        format.html { redirect_to templates_path, success: 'Template was successfully updated.' }
       else
         format.html { render :edit }
       end
@@ -50,7 +50,7 @@ class TemplatesController < ApplicationController
   def destroy
     if @template.destroy
       respond_to do |format|
-        format.html { redirect_to templates_url, success: 'Template was successfully destroyed.' }
+        format.html { redirect_to templates_path, success: 'Template was successfully destroyed.' }
       end
     else
       flash[:error] = @template.errors.full_messages
