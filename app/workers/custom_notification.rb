@@ -108,15 +108,15 @@ class CustomNotification
                                   :enable_starttls_auto => true }
       end
 
-      # mail = Mail.deliver do
-      #   to email_to
-      #   from email_from
-      #   subject email_subject.html_safe
-      #   html_part do
-      #     content_type 'text/html; charset=UTF-8'
-      #     body email_body
-      #   end
-      # end
+      mail = Mail.deliver do
+        to email_to
+        from email_from
+        subject email_subject.html_safe
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body email_body
+        end
+      end
     else
       Rails.logger.error "ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Unable to find Smtp details of this store"
     end
