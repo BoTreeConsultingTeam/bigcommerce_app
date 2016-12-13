@@ -25,7 +25,9 @@ class TemplatesController < ApplicationController
 
   # POST /templates
   def create
-    @template = current_store.templates.build(template_params)
+    new_template_params = template_params
+    new_template_params['body'] = (template_params['body'] == '<br>') ? '' : template_params['body']
+    @template = current_store.templates.build(new_template_params)
     respond_to do |format|
       if @template.save
         format.html { redirect_to templates_path, success: 'Template was successfully created.' }
@@ -38,12 +40,29 @@ class TemplatesController < ApplicationController
 
   # PATCH/PUT /templates/1
   def update
-    respond_to do |format|
-      if @template.update(template_params)
-        format.html { redirect_to templates_path, success: 'Template was successfully updated.' }
+    new_template_params = template_params
+    new_template_params['body'] = (template_params['body'] == '<br>') ? '' : template_params['body']
+    if @template.active?
+      if @template.event_type_id != template_params['event_type_id'].to_i || @template.event_id != template_params['event_id'].to_i
+        @event_type = @template.event_type
+        flash.now[:danger] = "You can't change event or event type of an active template. Please make anyother template as active first."
+         render :edit and return
       else
+        if @template.update(new_template_params)
+          redirect_to templates_path, success: 'Template was successfully updated.' and return
+        else
+          @event_type = EventType.new
+          flash.now[:danger] = @template.errors.full_messages
+          render :edit and return
+        end
+      end
+    else
+      if @template.update(new_template_params)
+        redirect_to templates_path, success: 'Template was successfully updated.'
+      else
+        @event_type = EventType.new
         flash.now[:danger] = @template.errors.full_messages
-        format.html { render :edit }
+        render :edit
       end
     end
   end
@@ -65,9 +84,9 @@ class TemplatesController < ApplicationController
     @event_types = @event.event_types if @event
     template = Template.find(params[:template_id]) if  params[:template_id].present?
     if template.present?
-      @event_type = template.event_type
+      @event_type = EventType.new
     else
-      @event_type = EventType.first
+      @event_type = EventType.new
     end
     respond_to do |format|
       format.js
@@ -82,7 +101,7 @@ class TemplatesController < ApplicationController
       template.update_attributes(active: true)
       flash[:success] = "Active Template changed successfully"
     else
-      flash[:danger] = "Unable to deactivate this template."
+      flash[:danger] = "At least one email template should be active at a time for each event and event type."
     end
     @templates = current_store.templates.page(params[:page])
     redirect_to templates_path

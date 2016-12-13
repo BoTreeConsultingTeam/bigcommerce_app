@@ -6,37 +6,37 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Name<span class="required-field">*</span></label>
 					<div class="col-sm-10">
-						<%= f.input :name, required: true, label: false %>
+						<%= f.input :name, required: true, label: false, :error => false %>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event<span class="required-field">*</span></label>
 					<div class="col-sm-10">
-						<%= f.input :event_id, collection: Event.pluck(:name, :id), label: false, id: 'event_select', class: 'form-control', include_blank: false%>
+						<%= f.input :event_id, collection: Event.pluck(:name, :id), prompt: 'Please Select Event', :error => false, label: false, id: 'event_select', class: 'form-control'%>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Event Type<span class="required-field">*</span></label>
 					<div class="col-sm-10" id="event-type-list">
-						<% event = @template.new_record? ? Event.first : @template.event %>
-						<% event_type = @template.new_record? ? EventType.first : @event_type%>
+					<% event = @template.new_record? ? Event.new : @template.event %>
+						<% event_type = @template.new_record? ? EventType.new : @event_type%>
 						<%= render partial: 'templates/event_types', locals: { event: event, event_type: event_type }%>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Available Variables</label>
 					<div class="col-sm-10">
 						<div class="form-group">
-							<%= select_tag 'template[variables]', options_for_select(::Template::AVAILABLE_TEMPLATE_VARIABLES), class: 'form-control select optional' %>
+							<%= select_tag 'template[variables]', options_for_select(::Template::AVAILABLE_TEMPLATE_VARIABLES), include_blank: 'Select Variable to Insert', class: 'form-control select optional' %>
 						</div>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Subject<span class="required-field">*</span></label>
 					<div class="col-sm-10">
-						<%= f.input :subject, label: false, placeholder: "Write the subject here..."%>
+						<%= f.input :subject, label: false, placeholder: "Write the subject here..." , :error => false%>
 					</div>
 					<div class="clearfix"></div>
 					<label class="col-sm-2 control-label">Body<span class="required-field">*</span></label>
 					<div class="col-sm-10">
 						<div class="form-group">
-							<div id="summernote"><%= @template.body.html_safe if @template.body.present? %></div>
+							<div id="summernote"></div>
 						</div>
 						<%= f.input :body, as: :hidden, label: false, required:false %>
 					</div>
@@ -54,61 +54,68 @@
 		</div>
 	</div>
 </div>
-<% if @template.body.present? %>
-<div id="default-template-body-order" style="display: none;"><%= @template.body.html_safe%></div>
-<div id="default-template-body-shipment" style="display: none;"><%= @template.body.html_safe%></div>
+<% unless @template.new_record? %>
+	<% if @template.event_id == 1 && @template.event_type_id == 1 %>
+		<div id="default-template-body-order" style="display: none;"><%= @template.body.html_safe%></div>
+	<% else %>
+		<div id="default-template-body-order" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:order][:body].html_safe%></div>
+	<% end %>
+	<% if @template.event_id == 2 && @template.event_type_id == 2 %>
+		<div id="default-template-body-shipment" style="display: none;"><%= @template.body.html_safe%> </div>
+	<% else %>
+		<div id="default-template-body-shipment" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:shipment][:body].html_safe%></div>
+	<% end %>
 <% else %>
-<div id="default-template-body-order" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:order][:body].html_safe%></div>
-<div id="default-template-body-shipment" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:shipment][:body].html_safe%></div>
+	<% if @template.event_id == 1 && @template.event_type_id == 1%>
+		<div id="default-template-body-order" style="display: none;"><%= @template.body.html_safe%></div>
+	<% else%>
+		<div id="default-template-body-order" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:order][:body].html_safe%></div>
+	<% end %>
+	<% if @template.event_id == 2 && @template.event_type_id == 2%>
+		<div id="default-template-body-shipment" style="display: none;"><%= @template.body.html_safe%></div>
+	<% else %>
+		<div id="default-template-body-shipment" style="display: none;"><%= ::Template::DEFAULT_TEMPLATES[:shipment][:body].html_safe%></div>
+	<% end %>
 <% end %>
 <script>
 $(document).ready(function(){
+	$("#template_body").val($('#summernote').code());
+	$('#summernote').summernote({
+		placeholder : 'Default template will be displayed soon once you select event and event type...'
+	});
+
 	$('.note-editable').on('keyup', function() {
 		$("#template_body").val($('#summernote').code());
 	});
-  BigCommerce.Template.NewTemplate();
+	$('.note-editable').on('keyup', function() {
+		$("#template_body").val($('#summernote').code());
+	});
+
   BigCommerce.Template.InsertAtCaretPosition();
-	 $("#template_event_id option:selected").val();
-	$('#template_event_id').on('change', function(){
-		if ($("#template_event_type_id option:selected").text() != 'order created') {
-			$('#summernote').code($("#default-template-body-order").html());
-		} else {
-			$('#summernote').code($("#default-template-body-shipment").html());
-		}
+ 	$("#template_event_id option:selected").val();
+	$('#template_event_id').change(function(){
 		var event =	this.options[this.options.selectedIndex].value
-		$.ajax({
-  		url: "/event_types/list",
-  		data: { event: event, template_id: "<%= @template.id %>" }
-		})
-	});
-
-	$("#template_event_type_id").on('change', function() {
-		var selected = $("#template_event_type_id option:selected").text();
-		if ($("#template_event_type_id option:selected").text() == 'order created') {
-			$('#summernote').code($("#default-template-body-order").html());
-		} else {
-			$('#summernote').code($("#default-template-body-shipment").html());
+		if(event){
+			$.ajax({
+				url: "/event_types/list",
+				data: { event: event, template_id: "<%= @template.id %>" }
+			})
 		}
 	});
-
-});
-
-$(function(){
-	$("#new_template").validate({
-	    rules: {
-	        name: {
-	            required: true
-	        },
-	        event_type_id: {
-	        	required: true
-	        },
-	        body: {
-	        	required: true
-	        }
-	    },
-	    submitHandler: function(form) {
-	        form.submit();
-	    }
-	});
+	var selected = $("#template_event_type_id option:selected").text();
+	console.log('testtetstest')
+	if ($(selected && $("#template_event_id option:selected").text() == 'order' && "#template_event_type_id option:selected").text() == 'order created') {
+		console.log('erty')
+		$('#summernote').code($("#default-template-body-order").html());
+		$("#template_body").val($('#summernote').code());
+	} else if($(selected && $("#template_event_id option:selected").text() == 'shipment' && "#template_event_type_id option:selected").text() == 'shipment created') {
+		console.log('fsdfsdf')
+		$('#summernote').code($("#default-template-body-shipment").html());
+		$("#template_body").val($('#summernote').code());
+	}else{
+		console.log('5678')
+		$('#summernote').code("");
+		$("#template_body").val($('#summernote').code());
+	}
 });
 </script>

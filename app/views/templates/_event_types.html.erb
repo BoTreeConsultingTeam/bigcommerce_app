@@ -1,5 +1,42 @@
 <% event_types = event.present? ? event.event_types : [] %>
-
+<% event_types_final = (params[:template].present? && params[:template][:event_id].present? && event_types.blank?) ? Event.find(params[:template][:event_id]).event_types : event_types %>
+<% event_type_id = event_type.new_record? ? nil : event_type.id %>
+<% event_type_id_final = (params[:template].present? && params[:template][:event_type_id].present? && event_type_id.blank?) ? params[:template][:event_type_id].to_i : event_type_id %>
 <div class="form-group">
-  <%= select_tag 'template[event_type_id]', options_from_collection_for_select(event_types, "id", "name", event_type), class: 'form-control select optional', include_blank: false %>
+  <%= select_tag 'template[event_type_id]', options_from_collection_for_select(event_types_final, "id", "name", event_type_id_final), prompt: 'Please Select Event Type', class: 'form-control select optional event_type_id' %>
 </div>
+<script type="text/javascript">
+$("#template_event_type_id").change(function() {
+  var selected = $("#template_event_type_id option:selected").text();
+  if (selected && $("#template_event_id option:selected").text() == 'order' && $("#template_event_type_id option:selected").text() == 'order created') {
+    console.log('test1');
+    $('#summernote').code($("#default-template-body-order").html());
+    console.log('test1---------------------------');
+    $("#template_body").val($('#summernote').code());
+  } else if( selected && $("#template_event_id option:selected").text() == 'shipment' && $("#template_event_type_id option:selected").text() == 'shipment created'){
+    console.log('test2');
+    $('#summernote').code($("#default-template-body-shipment").html());
+    console.log('test2--------------------');
+    $("#template_body").val($('#summernote').code());
+  }else{
+    console.log('test3');
+    $('#summernote').code("");
+    $("#template_body").val($('#summernote').code());
+  }
+});
+$("#template_event_id").change(function() {
+  var selected = $("#template_event_type_id option:selected").text();
+  if (selected && $("#template_event_id option:selected").text() == 'order' && $("#template_event_type_id option:selected").text() == 'order created') {
+    $('#summernote').code($("#default-template-body-order").html());
+    $("#template_body").val($('#summernote').code());
+  } else if( selected && $("#template_event_id option:selected").text() == 'shipment' && $("#template_event_type_id option:selected").text() == 'shipment created'){
+
+    $('#summernote').code($("#default-template-body-shipment").html());
+    $("#template_body").val($('#summernote').code());
+  }else{
+    console.log('test3');
+    $('#summernote').code("");
+    $("#template_body").val($('#summernote').code());
+  }
+});
+</script>
