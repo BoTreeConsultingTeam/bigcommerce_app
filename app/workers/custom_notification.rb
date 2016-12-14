@@ -107,7 +107,7 @@ class CustomNotification
                                   :authentication => 'plain',
                                   :enable_starttls_auto => true }
       end
-
+      puts ">>>>>>>>>>>>>>>>>>>>>>>> Start sending email...."
       mail = Mail.deliver do
         to email_to
         from email_from

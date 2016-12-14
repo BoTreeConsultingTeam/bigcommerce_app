@@ -9,7 +9,7 @@
 			<div id="hbreadcrumb" class="pull-right m-t-lg">
 				<ol class="hbreadcrumb breadcrumb">
 					<li>
-						<a href="index.html">Home</a>
+						<a href="javascript:;">Home</a>
 					</li>
 					<li>
 						<span>Templates</span>
@@ -65,7 +65,7 @@
 												<%= link_to edit_template_path(template), method: :get, style: 'font-size: 25px;' do %>
 													<i class="fa fa-pencil-square-o" title="Edit"></i>
 												<% end %>
-												<%= link_to toggle_active_path(template.id), method: :get, style: 'font-size: 25px;', data: { confirm: "#{}" } do %>
+												<%= link_to toggle_active_path(template.id), method: :get, style: 'font-size: 25px;', data: { confirm: "#{confirm_msg}" } do %>
 													<% sym = template.active? ? "fa-check" : "fa-check disabled" %>
 													<i class="fa <%= sym %>" title="<%= tooltip_msg %>"></i>
 												<% end %>

@@ -13,8 +13,11 @@
 						<% event_missing = flash['danger'].present? && flash['danger'].include?('Event can\'t be blank')%>
 						<div class="col-sm-10 <%= 'error' if event_missing %>">
 							<% event = @template.new_record? ? Event.new : @template.event %>
+							<% event_final = (params[:template].present? && params[:template][:event_id].blank? && event.blank?) ? Event.new : event %>
+							<% event_id = event_final.new_record? ? nil : event_final.id %>
+							<% event_id_final = (params[:template].present? && params[:template][:event_id].present? && event_id.blank?) ? params[:template][:event_id].to_i : event_id %>
 							<div class='form-group <%= 'has-error' if event_missing %>'>
-							<%= f.select :event_id, options_for_select(Event.pluck(:name, :id), selected: event.id), {include_blank: 'Please Select Event' }, id: 'template_event_id', class: 'form-control', required: 'required' %>
+							<%= f.select :event_id, options_for_select(Event.pluck(:name, :id), selected: event_id_final), {include_blank: 'Please Select Event' }, id: 'template_event_id', class: 'form-control', required: 'required' %>
 						</div>
 					</div>
 					<div class="clearfix"></div>

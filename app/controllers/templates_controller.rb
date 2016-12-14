@@ -46,9 +46,9 @@ class TemplatesController < ApplicationController
       if @template.event_type_id != template_params['event_type_id'].to_i || @template.event_id != template_params['event_id'].to_i
         @event_type = @template.event_type
         flash.now[:danger] = "You can't change event or event type of an active template. Please make anyother template as active first."
-         render :edit and return
+        render :edit and return
       else
-        if @template.update(new_template_params)
+        if @template.update_attributes(new_template_params)
           redirect_to templates_path, success: 'Template was successfully updated.' and return
         else
           @event_type = EventType.new
@@ -57,7 +57,7 @@ class TemplatesController < ApplicationController
         end
       end
     else
-      if @template.update(new_template_params)
+      if @template.update_attributes(new_template_params)
         redirect_to templates_path, success: 'Template was successfully updated.'
       else
         @event_type = EventType.new
