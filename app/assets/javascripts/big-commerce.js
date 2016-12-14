@@ -3,9 +3,7 @@ BigCommerce = {};
 BigCommerce.Template = {
 	NewTemplate : function() {
 		$(document).ready(function() {
-
 			$('.event_type_id').on('change', function(){
-				alert()
 			})
 		});
 	},
@@ -13,7 +11,6 @@ BigCommerce.Template = {
 	InsertAtCaretPosition: function(){
 		$(document).ready(function(){
 	    $("#template_variables").on('click', function() {
-					debugger;
 	        insertTextAtCursor($(this).val());
 	        $("#template_body").val($('#summernote').code());
 	    });
