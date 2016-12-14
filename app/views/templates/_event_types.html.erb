@@ -2,7 +2,7 @@
 <% event_types_final = (params[:template].present? && params[:template][:event_id].present? && event_types.blank?) ? Event.find(params[:template][:event_id]).event_types : event_types %>
 <% event_type_id = event_type.new_record? ? nil : event_type.id %>
 <% event_type_id_final = (params[:template].present? && params[:template][:event_type_id].present? && event_type_id.blank?) ? params[:template][:event_type_id].to_i : event_type_id %>
-<% msg_present = flash['danger'].present? && flash['danger'].include?('Event type can\'t be blank')%>
+<% msg_present = flash['danger'].present? && flash['danger'].include?('Event type can\'t be blank')  %>
 <div class='form-group <%= 'has-error' if msg_present %>'>
   <%= select_tag 'template[event_type_id]', options_from_collection_for_select(event_types_final, "id", "name", event_type_id_final), prompt: 'Please Select Event Type', class: 'form-control select optional event_type_id'%>
 </div>

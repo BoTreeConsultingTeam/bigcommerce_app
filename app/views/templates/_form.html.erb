@@ -93,7 +93,10 @@ $(document).ready(function(){
 	$('.note-editable').on('keyup', function() {
 		$("#template_body").val($('#summernote').code());
 	});
-
+	<% if flash['danger'].present? && (flash['danger'].include?('Body can\'t be blank') ||
+		flash['danger'].include?('Please check your template body. There are some wrong variables found.')) %>
+		$('.note-editor').addClass('custom-error');
+	<% end %>
   BigCommerce.Template.InsertAtCaretPosition();
  	$("#template_event_id option:selected").val();
 	$('#template_event_id').change(function(){
