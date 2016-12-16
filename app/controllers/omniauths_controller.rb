@@ -4,7 +4,7 @@ class OmniauthsController < ApplicationController
     unless auth && auth[:extra][:raw_info][:context]
       return render_error("[install] Invalid credentials: #{JSON.pretty_generate(auth[:extra])}")
     end
-    app_url  = 'https://92210c26.ngrok.io'
+    app_url  = ENV['APPLICATION_URL']
     email = auth[:info][:email]
     name = auth[:info][:name]
     store_hash = auth[:extra][:context].split('/')[1]

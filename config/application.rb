@@ -5,6 +5,18 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+if Rails.env.production?
+ config_file = '/home/deploy/bigcommerce_app/shared/config/settings.yml'
+ if File.exists?(config_file)
+   config = YAML.load(File.read(config_file))
+   config.each do |key, value|
+     ENV[key] ||= value.to_s unless value.kind_of? Hash
+   end
+ else
+   raise 'Missing required configuration file /home/deploy/bigcommerce_app/shared/config/settings.yml'
+ end
+end
+
 
 module DemoBigCommerce
   class Application < Rails::Application
