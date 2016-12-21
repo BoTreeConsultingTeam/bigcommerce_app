@@ -36,16 +36,16 @@ module DemoBigCommerce
     config.active_record.raise_in_transactional_callbacks = true
 
     config.action_mailer.delivery_method = :smtp
-    config.action_mailer.default_url_options = { host:'https://f62bd521.ngrok.io'}
+    config.action_mailer.default_url_options = { :host => "#{ENV['APPLICATION_URL']}" }
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.default :charset => "utf-8"
     config.action_mailer.smtp_settings = {
         :address => "smtp.sendgrid.net",
         :port => 587,
-        :domain => 'https://f62bd521.ngrok.io/',
-        :user_name => "#{ENV['SENDGRID_USERNAME']}",
-        :password => "#{ENV['SENDGRID_PASSWORD']}",
+        :domain => "#{ENV['APPLICATION_URL']}",
+        :user_name => "#{ENV['EMAIL_USERNAME']}",
+        :password => "#{ENV['EMAIL_PASSWORD']}",
         :authentication => :plain,
         :enable_starttls_auto => true
     }

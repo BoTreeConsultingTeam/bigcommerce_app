@@ -243,7 +243,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   kaminari
-  mail
   mysql2
   omniauth-bigcommerce
   pry-rails

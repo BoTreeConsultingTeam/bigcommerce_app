@@ -1,4 +1,3 @@
-require 'mail'
 class CustomNotification
   include Sidekiq::Worker
 
@@ -38,7 +37,7 @@ class CustomNotification
     order_products.each do |product|
       original_template = product_template_str
       images = Bigcommerce::ProductImage.all(product.product_id, connection: connection)
-      product_template_str = product_template_str.gsub('{{product_image_source}}', images.first[:standard_url])
+      product_template_str = product_template_str.gsub('{{product_image_source}}', images.first[:standard_url]) if images.present?
       product_template_str = product_template_str.gsub("{{product_quantity}}", product.quantity.to_s)
       product_template_str = product_template_str.gsub("{{product_name}}", product.name)
       product_template_str = product_template_str.gsub("{{product_price}}", product.base_price)
@@ -97,26 +96,17 @@ class CustomNotification
       domain = smtp_details.domain
       username = smtp_details.username
       password = smtp_details.password
-      Mail.defaults do
-         delivery_method :smtp, { :delivery_method => delivery,
-                                  :address   => address,
-                                  :port => port,
-                                  :domain => domain,
-                                  :user_name => username ,
-                                  :password  => password,
-                                  :authentication => 'plain',
-                                  :enable_starttls_auto => true }
-      end
-      puts ">>>>>>>>>>>>>>>>>>>>>>>> Start sending email...."
-      mail = Mail.deliver do
-        to email_to
-        from email_from
-        subject email_subject.html_safe
-        html_part do
-          content_type 'text/html; charset=UTF-8'
-          body email_body
-        end
-      end
+      options = { :delivery_method => delivery,
+        :address   => address,
+        :port => port,
+        :domain => domain,
+        :user_name => username ,
+        :password  => password,
+        :authentication => :plain,
+        :enable_starttls_auto => true ,
+        :return_response => true
+    }
+    Notifier.order_notifier(email_to, email_from, email_subject, email_body, options).deliver
     else
       Rails.logger.error "ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Unable to find Smtp details of this store"
     end
