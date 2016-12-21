@@ -96,6 +96,7 @@ class CustomNotification
       domain = smtp_details.domain
       username = smtp_details.username
       password = smtp_details.password
+
       options = { :delivery_method => delivery,
         :address   => address,
         :port => port,
@@ -106,7 +107,7 @@ class CustomNotification
         :enable_starttls_auto => true ,
         :return_response => true
     }
-    Notifier.order_notifier(email_to, email_from, email_subject, email_body, options).deliver
+    Notifier.mail_notifier(email_to, email_from, email_subject, email_body, options).deliver
     else
       Rails.logger.error "ERROR >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Unable to find Smtp details of this store"
     end
